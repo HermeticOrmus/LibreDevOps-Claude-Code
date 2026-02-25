@@ -1,0 +1,137 @@
+name: Feature Request
+description: Request a new DevOps plugin, agent, command, or learning content
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature. LibreDevOps grows through community input. Please describe your idea below.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: What type of addition are you requesting?
+      options:
+        - New plugin (infrastructure skill)
+        - New agent
+        - New command
+        - New hook
+        - New learning content (beginner)
+        - New learning content (intermediate)
+        - New learning content (advanced)
+        - Enhancement to existing plugin
+        - New template
+        - New infrastructure pattern
+        - New CI/CD pipeline pattern
+        - Integration with external tool
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: devops-domain
+    attributes:
+      label: DevOps Domain
+      description: Which area of DevOps does this relate to?
+      options:
+        - Cloud Platforms (AWS / GCP / Azure)
+        - Containers & Docker
+        - Kubernetes & Orchestration
+        - Service Mesh
+        - CI/CD Pipelines
+        - Infrastructure as Code (Terraform)
+        - Configuration Management (Ansible)
+        - Serverless
+        - Monitoring & Observability
+        - Log Management
+        - Incident Management
+        - Backup & Disaster Recovery
+        - Cost Optimization
+        - Networking & DNS
+        - Load Balancing
+        - Database Operations
+        - Secret Management
+        - Infrastructure Security
+        - Release Management
+        - GitOps
+        - Platform Engineering
+        - Chaos Engineering
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What infrastructure challenge or gap does this address?
+      placeholder: |
+        Currently there is no way to...
+        Engineers need this because...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe what the plugin, agent, or content should do. Include example prompts or commands if you have them.
+      placeholder: |
+        A plugin that...
+        Example usage:
+        /devops:my-new-command --provider aws
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other approaches did you consider? Why is this approach better?
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References & Prior Art
+      description: Links to relevant documentation, tools, or similar implementations.
+      placeholder: |
+        - Terraform docs: https://developer.hashicorp.com/terraform
+        - Similar tool: https://github.com/example/tool
+        - Blog post: https://example.com/article
+    validations:
+      required: false
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Estimated Difficulty
+      description: How complex do you think this would be to implement?
+      options:
+        - Low (documentation or simple prompt)
+        - Medium (new plugin with moderate logic)
+        - High (complex agent or multi-component feature)
+        - Unknown
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Willingness to Contribute
+      description: Would you be willing to help implement this?
+      options:
+        - label: I am willing to submit a PR for this feature.
+        - label: I can help test this feature.
+        - label: I can help write documentation for this feature.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true

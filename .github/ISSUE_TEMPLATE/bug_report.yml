@@ -1,0 +1,120 @@
+name: Bug Report
+description: Report a problem with a DevOps plugin, agent, command, or hook
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug. Please fill out the sections below so we can diagnose and fix the issue.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of LibreDevOps is affected?
+      options:
+        - Plugin (infrastructure skill)
+        - Agent
+        - Command
+        - Hook
+        - Template
+        - Learning content
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-name
+    attributes:
+      label: Plugin / Component Name
+      description: Name of the specific plugin, agent, command, or file affected.
+      placeholder: "e.g., terraform-patterns, kubernetes-operations, github-actions"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Clear, specific description of what is not working.
+      placeholder: "Describe the problem in detail."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen instead?
+      placeholder: "Describe the correct behavior you expected."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps to reproduce the bug. Include the prompt or command you used.
+      placeholder: |
+        1. Open Claude Code
+        2. Run command or use prompt: ...
+        3. Observe: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-output
+    attributes:
+      label: Actual Output
+      description: Paste the output, error message, or screenshot showing the bug.
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: claude-version
+    attributes:
+      label: Claude Code Version
+      description: "Run `claude --version` to find this."
+      placeholder: "e.g., 1.0.12"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Linux
+        - macOS
+        - Windows (WSL)
+        - Windows
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Infrastructure Environment
+      description: Relevant tool versions and environment details.
+      placeholder: |
+        Terraform: 1.7.x
+        Docker: 25.x
+        kubectl: 1.29.x
+        AWS CLI: 2.x
+        Cloud provider: AWS / GCP / Azure / Local
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+        - label: This report does not contain real credentials, API keys, or cloud account identifiers.
+          required: true
