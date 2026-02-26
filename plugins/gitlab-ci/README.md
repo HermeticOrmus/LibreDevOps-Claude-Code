@@ -1,46 +1,43 @@
-# Gitlab Ci
+# GitLab CI Plugin
 
-GitLab CI/CD pipelines, runners, environments
+.gitlab-ci.yml, DAG pipelines with needs:, GitLab environments, SAST/DAST scanning, merge request pipelines, and shared templates.
 
-## What's Included
+## Components
 
-### Agents
-- **Gitlab Ci Engineer** - Specialized agent for GitLab CI/CD pipelines, runners, environments
+- **Agent**: `gitlab-ci-engineer` -- Designs stages, DAG with `needs:`, rules, environments, cache, security templates
+- **Command**: `/gitlab-ci` -- Generates pipelines, reusable templates, security scanning, deployment jobs
+- **Skill**: `gitlab-ci-patterns` -- Complete pipeline examples, MR pipelines, dynamic child pipelines, variable reference
 
-### Commands
-- `/gitlab-ci` - Quick-access command for gitlab-ci workflows
+## Quick Reference
 
-### Skills
-- **Gitlab Ci Patterns** - Pattern library and knowledge base for gitlab-ci
+```bash
+# GitLab CLI (glab)
+glab ci view              # View current pipeline in browser
+glab ci status            # Latest pipeline status
+glab ci trace JOB_ID      # Stream job logs
+glab ci retry JOB_ID      # Retry failed job
+glab ci artifact download --job build
 
-## Quick Start
-
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
-
-## Usage Examples
-
-```
-# Use the command directly
-/gitlab-ci analyze
-
-# Use the command with specific input
-/gitlab-ci generate --context "your project"
-
-# Reference patterns from the skill
-"Apply gitlab-ci-patterns patterns to this implementation"
+# Check pipeline source in job
+# $CI_PIPELINE_SOURCE = "merge_request_event" | "push" | "schedule" | "web"
+# $CI_COMMIT_BRANCH vs $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
 ```
 
 ## Key Patterns
 
-- Follow established conventions for gitlab-ci
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+**Always use `rules:` not `only:/except:`**. `only/except` has undocumented interactions with MR pipelines. `rules:` is explicit and composable.
+
+**Use `needs:` for DAG pipelines**. Without `needs:`, every job in a stage waits for ALL jobs in the previous stage. With `needs:`, jobs start as soon as their specific dependencies complete. This can reduce pipeline duration by 50%+.
+
+**`needs: []` for parallelism**: A job with `needs: []` starts at the same time as the first stage. Use for jobs that don't need build artifacts (linting, secrets scanning).
+
+**Cache vs artifacts**: Cache persists between pipeline runs (dependency install). Artifacts pass files within the same pipeline between jobs. Don't use cache for artifact-like data.
+
+**Protected CI/CD variables**: Mark production secrets as `Protected` in GitLab CI/CD settings. Protected variables only run on protected branches (main, master, tags). Prevents staging secrets from reaching production pipelines.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [container-registry](../container-registry/) -- GitLab Container Registry push and scanning
+- [kubernetes-operations](../kubernetes-operations/) -- kubectl in GitLab CI deploy jobs
+- [infrastructure-security](../infrastructure-security/) -- SAST/DAST result interpretation
+- [release-management](../release-management/) -- GitLab environments and deployment tracking

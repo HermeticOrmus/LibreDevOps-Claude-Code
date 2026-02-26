@@ -1,88 +1,260 @@
-# Gitlab Ci Patterns
+# GitLab CI Patterns
 
-A comprehensive pattern library and knowledge base for gitlab-ci.
+DAG pipelines, merge request pipelines, security scanning, environment deployments, and shared templates.
 
-## Knowledge Base
+## Complete .gitlab-ci.yml for a Node.js App
 
-### Core Concepts
-- **Fundamentals**: The foundational principles that govern gitlab-ci
-- **Terminology**: Standard vocabulary and definitions used in the domain
-- **Standards**: Industry standards and specifications that apply
-- **Tools**: Common tools and frameworks used for gitlab-ci
+```yaml
+# .gitlab-ci.yml
+stages:
+  - build
+  - test
+  - security
+  - deploy
 
-### Architecture Principles
-- Separation of concerns within gitlab-ci implementations
-- Modularity and reusability of components
-- Scalability considerations for growing systems
-- Integration patterns with adjacent domains
+default:
+  image: node:20-alpine
+  cache:
+    key:
+      files: [package-lock.json]
+    paths: [.npm/]
+  interruptible: true   # Cancel running pipeline when new push comes
 
-### Quality Attributes
-- **Correctness**: Implementations must meet functional requirements
-- **Maintainability**: Code and artifacts should be easy to understand and modify
-- **Performance**: Implementations should meet non-functional requirements
-- **Security**: Sensitive data and operations must be properly protected
+variables:
+  DOCKER_BUILDKIT: "1"
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_VERIFY: "1"
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
 
-## Patterns
+# ─── BUILD STAGE ─────────────────────────────────────────────────────
 
-### Pattern 1: Structured Approach
-- Start with requirements analysis
-- Design before implementing
-- Validate against acceptance criteria
-- Document decisions and rationale
+build-app:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build
+        --build-arg BUILDKIT_INLINE_CACHE=1
+        --cache-from $CI_REGISTRY_IMAGE:cache
+        --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+        --tag $CI_REGISTRY_IMAGE:cache
+        .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:cache
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
 
-### Pattern 2: Iterative Refinement
-- Begin with a minimal viable implementation
-- Gather feedback early and often
-- Refine based on real-world usage
-- Continuously improve based on metrics
+# ─── TEST STAGE (DAG: starts when build-app finishes) ────────────────
 
-### Pattern 3: Convention Over Configuration
-- Follow established conventions where they exist
-- Configure only what needs to deviate from defaults
-- Document any non-standard choices
-- Prefer explicit over implicit behavior
+test-unit:
+  stage: test
+  needs: [build-app]
+  script:
+    - npm ci --cache .npm
+    - npm test -- --coverage
+  artifacts:
+    reports:
+      junit: test-results.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    expire_in: 7 days
+  coverage: '/Statements\s*:\s*(\d+\.?\d*)%/'
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
-### Pattern 4: Defense in Depth
-- Validate at multiple levels
-- Handle errors gracefully at each layer
-- Provide meaningful feedback for failures
-- Log important events for debugging
+# Runs in parallel with test-unit (no deps on each other)
+lint:
+  stage: test
+  needs: []           # Start with build stage, no dependency on build-app
+  script:
+    - npm ci --cache .npm
+    - npm run lint
+    - npm run type-check
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
-## Anti-Patterns
+# ─── SECURITY STAGE ───────────────────────────────────────────────────
 
-### Anti-Pattern 1: Premature Optimization
-- Optimizing before understanding the actual bottleneck
-- Adding complexity without measured need
-- Sacrificing readability for marginal performance gains
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Container-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
 
-### Anti-Pattern 2: Copy-Paste Without Understanding
-- Duplicating code without understanding its purpose
-- Propagating bugs through mechanical copying
-- Missing opportunities for abstraction
+container_scanning:
+  variables:
+    CS_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  needs: [build-app]   # Override template to require build first
 
-### Anti-Pattern 3: Ignoring Standards
-- Deviating from conventions without clear justification
-- Creating inconsistency across the codebase
-- Making onboarding harder for new contributors
+# ─── DEPLOY STAGE ─────────────────────────────────────────────────────
 
-### Anti-Pattern 4: Over-Engineering
-- Building for hypothetical future requirements
-- Adding abstraction layers without clear benefit
-- Creating complex solutions for simple problems
+deploy-review:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://$CI_COMMIT_REF_SLUG.review.example.com
+    on_stop: stop-review
+    auto_stop_in: 1 week
+    deployment_tier: development
+  needs:
+    - job: build-app
+    - job: test-unit
+  script:
+    - kubectl set image deployment/myapp app=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA -n review-$CI_COMMIT_REF_SLUG
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
-## References
+stop-review:
+  stage: deploy
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+  script:
+    - kubectl delete namespace review-$CI_COMMIT_REF_SLUG
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
 
-### Documentation
-- Official documentation for related tools and frameworks
-- Industry standards and specifications
-- Community best practices and guides
+deploy-staging:
+  stage: deploy
+  environment:
+    name: staging
+    url: https://staging.example.com
+    deployment_tier: staging
+  needs:
+    - job: build-app
+    - job: test-unit
+    - job: container_scanning
+  script:
+    - kubectl set image deployment/myapp app=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA -n staging
+    - kubectl rollout status deployment/myapp -n staging
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-### Learning Resources
-- Tutorials and walkthroughs for beginners
-- Advanced guides for experienced practitioners
-- Case studies and real-world examples
+deploy-production:
+  stage: deploy
+  environment:
+    name: production
+    url: https://example.com
+    deployment_tier: production
+  needs:
+    - job: deploy-staging
+  script:
+    - kubectl set image deployment/myapp app=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA -n production
+    - kubectl rollout status deployment/myapp -n production
+  when: manual   # Require manual click in GitLab UI
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+```
 
-### Tools
-- Development tools for gitlab-ci
-- Testing and validation tools
-- Monitoring and observability tools
+## Shared Templates Pattern
+
+```yaml
+# ci/templates/docker.yml (in same repo or separate template project)
+.docker-build:
+  image: docker:24
+  services:
+    - docker:24-dind
+  variables:
+    DOCKER_BUILDKIT: "1"
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+.docker-build-push:
+  extends: .docker-build
+  script:
+    - docker build
+        --cache-from $CI_REGISTRY_IMAGE:cache
+        --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+        .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+# Usage:
+build:
+  extends: .docker-build-push
+  stage: build
+```
+
+## Merge Request Pipeline Configuration
+
+```yaml
+# Use GitLab MergeRequest-Pipelines workflow template
+# This disables branch pipelines for branches with open MRs
+include:
+  - template: Workflows/MergeRequest-Pipelines.gitlab-ci.yml
+
+# Now use rules with merge_request_event:
+test:
+  script: npm test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# MR-only jobs
+code-quality:
+  script: npm run quality-report
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+```
+
+## Dynamic Child Pipelines
+
+```yaml
+# Parent: generate child pipeline based on changed files
+generate-pipeline:
+  stage: build
+  script:
+    - |
+      if git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA | grep -q "^frontend/"; then
+        cat ci/frontend-pipeline.yml >> generated-pipeline.yml
+      fi
+      if git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA | grep -q "^backend/"; then
+        cat ci/backend-pipeline.yml >> generated-pipeline.yml
+      fi
+  artifacts:
+    paths: [generated-pipeline.yml]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+trigger-child:
+  stage: test
+  needs: [generate-pipeline]
+  trigger:
+    include:
+      - artifact: generated-pipeline.yml
+        job: generate-pipeline
+    strategy: depend   # Wait for child pipeline to complete
+```
+
+## GitLab CI Environment Variables Reference
+
+```yaml
+# Predefined variables used in pipelines
+CI_COMMIT_SHA           # Full commit hash
+CI_COMMIT_SHORT_SHA     # Short hash (8 chars)
+CI_COMMIT_BRANCH        # Current branch (not set for MRs)
+CI_COMMIT_TAG           # Tag name (only in tag pipelines)
+CI_COMMIT_REF_SLUG      # Branch/tag as URL-safe slug
+CI_DEFAULT_BRANCH       # Repo default branch (main/master)
+CI_PIPELINE_SOURCE      # push/web/schedule/merge_request_event
+CI_MERGE_REQUEST_IID    # MR number (only in MR pipelines)
+CI_PROJECT_PATH         # org/repo
+CI_REGISTRY             # GitLab Container Registry URL
+CI_REGISTRY_IMAGE       # $CI_REGISTRY/$CI_PROJECT_PATH
+CI_REGISTRY_USER        # Auth user for registry
+CI_REGISTRY_PASSWORD    # Auth token for registry
+CI_ENVIRONMENT_NAME     # Name of the environment being deployed to
+CI_ENVIRONMENT_URL      # URL of the environment
+CI_JOB_TOKEN            # Short-lived job token (read-only git access)
+```

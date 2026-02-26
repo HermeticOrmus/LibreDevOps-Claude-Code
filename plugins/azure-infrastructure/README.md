@@ -1,46 +1,59 @@
-# Azure Infrastructure
+# Azure Infrastructure Plugin
 
-Azure services, ARM templates, Bicep
+Azure Bicep/ARM, AKS, App Service, Azure DevOps pipelines, Key Vault, and landing zone governance patterns.
 
-## What's Included
+## Components
 
-### Agents
-- **Azure Architect** - Specialized agent for Azure services, ARM templates, Bicep
+- **Agent**: `azure-architect` -- Designs Bicep modules, AKS workload identity, Key Vault integration, Azure Policy governance
+- **Command**: `/azure` -- Deploys Bicep, configures managed identity federation, creates pipelines, applies governance
+- **Skill**: `azure-patterns` -- Bicep module structure, AKS workload identity, App Service KV references, Private Endpoints
 
-### Commands
-- `/azure` - Quick-access command for azure-infrastructure workflows
+## When to Use
 
-### Skills
-- **Azure Patterns** - Pattern library and knowledge base for azure-infrastructure
+- Writing Bicep modules for Azure resources (VNets, AKS, SQL, App Service, Key Vault)
+- Configuring AKS workload identity for pod-level Azure authentication (no secrets)
+- Setting up Azure DevOps pipelines with approval gates and Key Vault variable groups
+- Applying Azure Policy and Defender for Cloud governance
+- Designing hub-spoke networks with Private Endpoints for PaaS services
+- Landing zone subscription vending and management group hierarchy
 
-## Quick Start
+## Quick Reference
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+```bash
+# Deploy Bicep with what-if preview
+az deployment group what-if \
+  --resource-group rg-prod \
+  --template-file infra/main.bicep \
+  --parameters @infra/environments/prod.bicepparam
 
-## Usage Examples
+# Configure AKS workload identity
+az aks show --name aks-prod --resource-group rg-prod \
+  --query oidcIssuerProfile.issuerURL -o tsv
 
+# Check policy compliance
+az policy state summarize --subscription $SUBSCRIPTION_ID \
+  --query "results.policyAssignments[?results.nonCompliantResources > \`0\`]"
+
+# Enable Defender for Cloud
+az security pricing create --name KubernetesService --tier Standard
 ```
-# Use the command directly
-/azure analyze
 
-# Use the command with specific input
-/azure generate --context "your project"
+## Key Concepts
 
-# Reference patterns from the skill
-"Apply azure-patterns patterns to this implementation"
-```
+**Bicep vs ARM**: Bicep is the preferred authoring language -- cleaner syntax, compiles to ARM JSON, native Azure tooling. Use `az bicep` CLI. Decompile existing ARM templates with `az bicep decompile`.
 
-## Key Patterns
+**Managed Identity vs Service Principal**: Always prefer managed identity (system or user-assigned). No credentials to rotate, no secrets in code. Use workload identity federation for Kubernetes pods.
 
-- Follow established conventions for azure-infrastructure
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+**Key Vault References in App Service**: App Settings can reference Key Vault secrets directly with `@Microsoft.KeyVault(SecretUri=...)` syntax. The App Service managed identity needs Key Vault Secrets User role. Secrets never pass through App Service's config plane.
+
+**AKS Workload Identity**: Replace pod service account secrets with federated credentials. AKS OIDC Issuer issues tokens that Azure AD trusts. App uses `DefaultAzureCredential` from Azure SDK -- no configuration needed.
+
+**Private Endpoints**: PaaS services (SQL, Storage, Key Vault, ACR) should use Private Endpoints in production. Disable public access. Pair with Private DNS Zones for proper name resolution within VNets.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [kubernetes-operations](../kubernetes-operations/) -- AKS workload management, Helm, kubectl
+- [secret-management](../secret-management/) -- HashiCorp Vault as alternative to Key Vault
+- [infrastructure-security](../infrastructure-security/) -- Checkov scanning for Bicep/ARM
+- [github-actions](../github-actions/) -- GitHub Actions OIDC for Azure deployments
+- [terraform-patterns](../terraform-patterns/) -- Terraform azurerm provider alternative

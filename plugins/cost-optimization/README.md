@@ -1,46 +1,50 @@
-# Cost Optimization
+# Cost Optimization Plugin
 
-Cloud cost analysis, right-sizing, FinOps
+FinOps Framework, AWS Cost Explorer, Savings Plans, Spot instances, Infracost CI, rightsizing, and tagging enforcement.
 
-## What's Included
+## Components
 
-### Agents
-- **Finops Analyst** - Specialized agent for Cloud cost analysis, right-sizing, FinOps
+- **Agent**: `finops-analyst` -- Savings Plans vs RIs, Spot interruption handling, S3 lifecycle, NAT Gateway reduction
+- **Command**: `/cost-optimize` -- Finds waste, gets Compute Optimizer recommendations, purchases Savings Plans, generates reports
+- **Skill**: `finops-patterns` -- Spot ASG Terraform, gp2->gp3 migration, S3 lifecycle, VPC Endpoints, Infracost CI, tagging SCP
 
-### Commands
-- `/cost-optimize` - Quick-access command for cost-optimization workflows
+## Quick Wins (Do These First)
 
-### Skills
-- **Finops Patterns** - Pattern library and knowledge base for cost-optimization
+```bash
+# 1. Convert gp2 volumes to gp3 (20% savings, zero risk)
+aws ec2 describe-volumes --filters Name=volume-type,Values=gp2 \
+  --query 'Volumes[].VolumeId' --output text | \
+  xargs -I{} aws ec2 modify-volume --volume-id {} --volume-type gp3
 
-## Quick Start
+# 2. Delete unattached EBS volumes
+aws ec2 describe-volumes --filters Name=status,Values=available \
+  --query 'Volumes[].VolumeId' --output text | \
+  xargs -I{} aws ec2 delete-volume --volume-id {}
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+# 3. Add S3 Gateway Endpoint (free, eliminates NAT GW charges for S3 traffic)
+aws ec2 create-vpc-endpoint --vpc-id vpc-xxx \
+  --service-name com.amazonaws.us-east-1.s3 \
+  --route-table-ids rtb-xxx
 
-## Usage Examples
-
-```
-# Use the command directly
-/cost-optimize analyze
-
-# Use the command with specific input
-/cost-optimize generate --context "your project"
-
-# Reference patterns from the skill
-"Apply finops-patterns patterns to this implementation"
+# 4. Enable Compute Optimizer
+aws compute-optimizer update-enrollment-status --status Active
 ```
 
-## Key Patterns
+## Key Savings Strategies
 
-- Follow established conventions for cost-optimization
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+| Strategy | Typical Savings | Effort | Risk |
+|----------|----------------|--------|------|
+| gp2 -> gp3 | 20% on EBS | Low | Very low |
+| Compute Savings Plans (1yr) | 30-40% on EC2 | Low | Low |
+| Spot for batch/CI | 60-80% on workers | Medium | Medium |
+| S3 Lifecycle rules | 40-70% on old data | Low | Very low |
+| S3 Gateway Endpoint | 100% of S3 NAT fees | Low | Very low |
+| Rightsizing (Compute Optimizer) | 20-40% on oversized | Medium | Medium |
+| Delete idle resources | 100% of waste | Low | Very low |
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [aws-infrastructure](../aws-infrastructure/) -- CDK constructs with cost-aware defaults
+- [terraform-patterns](../terraform-patterns/) -- Infracost integration in Terraform workflows
+- [kubernetes-operations](../kubernetes-operations/) -- KEDA and HPA for compute rightsizing
+- [serverless-patterns](../serverless-patterns/) -- Lambda power tuning for cost/performance

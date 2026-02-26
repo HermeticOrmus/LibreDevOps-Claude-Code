@@ -1,46 +1,63 @@
-# Gcp Infrastructure
+# GCP Infrastructure Plugin
 
-GCP services, Deployment Manager, Cloud Build
+GKE Autopilot, Cloud Run, Cloud SQL, Workload Identity, Terraform Google provider, and Cloud Armor patterns.
 
-## What's Included
+## Components
 
-### Agents
-- **Gcp Architect** - Specialized agent for GCP services, Deployment Manager, Cloud Build
+- **Agent**: `gcp-architect` -- Designs GKE clusters, Cloud Run services, Cloud SQL private IP, Workload Identity federation
+- **Command**: `/gcp` -- Provisions with Terraform, deploys to Cloud Run, configures service accounts, secures with Cloud Armor
+- **Skill**: `gcp-patterns` -- Full Workload Identity setup, Cloud Run + VPC connector, GitHub Actions OIDC, networking
 
-### Commands
-- `/gcp` - Quick-access command for gcp-infrastructure workflows
+## Quick Reference
 
-### Skills
-- **Gcp Patterns** - Pattern library and knowledge base for gcp-infrastructure
+```bash
+# Deploy to Cloud Run
+gcloud run deploy myapp \
+  --image us-central1-docker.pkg.dev/$PROJECT_ID/myapp:$TAG \
+  --region us-central1 \
+  --service-account myapp@$PROJECT_ID.iam.gserviceaccount.com
 
-## Quick Start
+# GKE credentials
+gcloud container clusters get-credentials prod-cluster \
+  --region us-central1
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+# Grant role to service account
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member "serviceAccount:myapp@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role "roles/cloudsql.client"
 
-## Usage Examples
+# Workload Identity binding
+gcloud iam service-accounts add-iam-policy-binding \
+  myapp@$PROJECT_ID.iam.gserviceaccount.com \
+  --member "serviceAccount:$PROJECT_ID.svc.id.goog[namespace/k8s-sa]" \
+  --role "roles/iam.workloadIdentityUser"
 
+# View Cloud Run logs
+gcloud run services logs read myapp --region us-central1
 ```
-# Use the command directly
-/gcp analyze
 
-# Use the command with specific input
-/gcp generate --context "your project"
+## Key Differences from AWS
 
-# Reference patterns from the skill
-"Apply gcp-patterns patterns to this implementation"
-```
+| AWS | GCP Equivalent |
+|-----|---------------|
+| ECS/Fargate | Cloud Run (HTTP), GKE Autopilot |
+| EC2 | Compute Engine |
+| RDS | Cloud SQL |
+| DynamoDB | Firestore, Bigtable |
+| S3 | Cloud Storage (GCS) |
+| ECR | Artifact Registry |
+| IAM roles | Service Accounts + IAM roles |
+| VPC Endpoints | Private Google Access, Private Service Connect |
+| CloudWatch | Cloud Monitoring, Cloud Logging |
+| Lambda | Cloud Functions |
+| SQS/SNS | Pub/Sub |
 
-## Key Patterns
-
-- Follow established conventions for gcp-infrastructure
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+## Workload Identity is Mandatory
+Never use service account key files in GKE or Cloud Run. Workload Identity (GKE) and service account assignment (Cloud Run) provide identity without keys. For GitHub Actions, use GCP Workload Identity Federation with OIDC.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [kubernetes-operations](../kubernetes-operations/) -- GKE workload management, Helm
+- [terraform-patterns](../terraform-patterns/) -- Terraform patterns for GCP provider
+- [container-registry](../container-registry/) -- Artifact Registry push and scanning
+- [github-actions](../github-actions/) -- OIDC federation with GCP for CI/CD

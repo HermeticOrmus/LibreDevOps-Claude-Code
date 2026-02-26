@@ -1,88 +1,195 @@
-# Mesh Patterns
+# Service Mesh Patterns
 
-A comprehensive pattern library and knowledge base for service-mesh.
+Istio mTLS, traffic routing, circuit breaking, Linkerd ServiceProfiles, and Envoy debugging.
 
-## Knowledge Base
+## Istio Install and Namespace Setup
 
-### Core Concepts
-- **Fundamentals**: The foundational principles that govern service-mesh
-- **Terminology**: Standard vocabulary and definitions used in the domain
-- **Standards**: Industry standards and specifications that apply
-- **Tools**: Common tools and frameworks used for service-mesh
+```bash
+# Install Istio with production profile
+istioctl install --set profile=production -y
 
-### Architecture Principles
-- Separation of concerns within service-mesh implementations
-- Modularity and reusability of components
-- Scalability considerations for growing systems
-- Integration patterns with adjacent domains
+# Production profile includes:
+# - 2 ingress gateway replicas (HA)
+# - Horizontal pod autoscaling for istiod
+# - Stricter security defaults
 
-### Quality Attributes
-- **Correctness**: Implementations must meet functional requirements
-- **Maintainability**: Code and artifacts should be easy to understand and modify
-- **Performance**: Implementations should meet non-functional requirements
-- **Security**: Sensitive data and operations must be properly protected
+# Enable sidecar injection for namespace
+kubectl label namespace production istio-injection=enabled
 
-## Patterns
+# Verify injection is working
+kubectl rollout restart deployment -n production
+kubectl get pods -n production -o json | \
+  jq '.items[] | {name: .metadata.name, containers: [.spec.containers[].name]}'
+# Each pod should have 2 containers: app + istio-proxy
 
-### Pattern 1: Structured Approach
-- Start with requirements analysis
-- Design before implementing
-- Validate against acceptance criteria
-- Document decisions and rationale
+# Check control plane health
+istioctl analyze -n production
+kubectl get pods -n istio-system
+```
 
-### Pattern 2: Iterative Refinement
-- Begin with a minimal viable implementation
-- Gather feedback early and often
-- Refine based on real-world usage
-- Continuously improve based on metrics
+## Istio Ingress Gateway
 
-### Pattern 3: Convention Over Configuration
-- Follow established conventions where they exist
-- Configure only what needs to deviate from defaults
-- Document any non-standard choices
-- Prefer explicit over implicit behavior
+```yaml
+# Replace nginx-ingress with Istio Gateway + VirtualService
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: app-gateway
+  namespace: production
+spec:
+  selector:
+    istio: ingressgateway  # Istio's ingress gateway pods
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: myapp-tls  # Kubernetes Secret with cert
+      hosts:
+        - api.example.com
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      tls:
+        httpsRedirect: true  # Redirect HTTP -> HTTPS
+      hosts:
+        - api.example.com
 
-### Pattern 4: Defense in Depth
-- Validate at multiple levels
-- Handle errors gracefully at each layer
-- Provide meaningful feedback for failures
-- Log important events for debugging
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-gateway-vs
+  namespace: production
+spec:
+  hosts:
+    - api.example.com
+  gateways:
+    - app-gateway
+  http:
+    - match:
+        - uri: {prefix: /api}
+      route:
+        - destination:
+            host: payment-api
+            port: {number: 80}
+```
 
-## Anti-Patterns
+## Linkerd: Full Stack Observability
 
-### Anti-Pattern 1: Premature Optimization
-- Optimizing before understanding the actual bottleneck
-- Adding complexity without measured need
-- Sacrificing readability for marginal performance gains
+```bash
+# Install Linkerd viz (metrics and dashboard)
+linkerd viz install | kubectl apply -f -
+linkerd viz check
 
-### Anti-Pattern 2: Copy-Paste Without Understanding
-- Duplicating code without understanding its purpose
-- Propagating bugs through mechanical copying
-- Missing opportunities for abstraction
+# Real-time traffic stats per deployment
+linkerd viz stat deploy -n production
 
-### Anti-Pattern 3: Ignoring Standards
-- Deviating from conventions without clear justification
-- Creating inconsistency across the codebase
-- Making onboarding harder for new contributors
+# Real-time top routes (like htop for HTTP)
+linkerd viz top deploy/payment-api -n production
 
-### Anti-Pattern 4: Over-Engineering
-- Building for hypothetical future requirements
-- Adding abstraction layers without clear benefit
-- Creating complex solutions for simple problems
+# Tap live traffic (sample requests/responses)
+linkerd viz tap deploy/frontend -n production \
+  --to svc/payment-api \
+  --path /api \
+  --method POST
 
-## References
+# Route-level success rate
+linkerd viz routes deploy/payment-api -n production
 
-### Documentation
-- Official documentation for related tools and frameworks
-- Industry standards and specifications
-- Community best practices and guides
+# Check mTLS between specific pods
+linkerd viz edges deploy -n production
+```
 
-### Learning Resources
-- Tutorials and walkthroughs for beginners
-- Advanced guides for experienced practitioners
-- Case studies and real-world examples
+## Kiali Dashboard (Istio)
 
-### Tools
-- Development tools for service-mesh
-- Testing and validation tools
-- Monitoring and observability tools
+```bash
+# Install Kiali (service mesh observability UI)
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/kiali.yaml
+
+# Port-forward to access locally
+kubectl port-forward svc/kiali 20001:20001 -n istio-system
+
+# Or expose via VirtualService
+cat << 'EOF' | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali
+  namespace: istio-system
+spec:
+  hosts: [kiali.internal.example.com]
+  gateways: [app-gateway]
+  http:
+    - route:
+        - destination:
+            host: kiali
+            port: {number: 20001}
+EOF
+```
+
+## Traffic Mirroring (Shadow Traffic)
+
+```yaml
+# Mirror 10% of production traffic to staging
+# Staging responses are ignored -- pure observation
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: payment-api-mirror
+  namespace: production
+spec:
+  hosts:
+    - payment-api
+  http:
+    - route:
+        - destination:
+            host: payment-api
+            subset: production
+          weight: 100
+      mirror:
+        host: payment-api-staging
+        port: {number: 80}
+      mirrorPercentage:
+        value: 10.0   # Mirror 10% of requests
+```
+
+## JWT Authentication at the Mesh Level
+
+```yaml
+# Validate JWTs at the sidecar level (before request reaches app)
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-auth
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: payment-api
+  jwtRules:
+    - issuer: "https://auth.example.com"
+      jwksUri: "https://auth.example.com/.well-known/jwks.json"
+      audiences: ["payment-api"]
+      forwardOriginalToken: true   # Pass JWT to app for further validation
+
+---
+# Require valid JWT (reject unauthenticated requests)
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: payment-api
+  action: ALLOW
+  rules:
+    - when:
+        - key: request.auth.claims[iss]
+          values: ["https://auth.example.com"]
+```

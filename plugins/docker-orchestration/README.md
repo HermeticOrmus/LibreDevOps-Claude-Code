@@ -1,46 +1,55 @@
-# Docker Orchestration
+# Docker Orchestration Plugin
 
-Docker Compose, multi-stage builds, optimization
+Multi-stage Dockerfiles, BuildKit cache optimization, docker-compose with health checks, container security, and image scanning.
 
-## What's Included
+## Components
 
-### Agents
-- **Docker Engineer** - Specialized agent for Docker Compose, multi-stage builds, optimization
+- **Agent**: `docker-engineer` -- Multi-stage builds, layer caching, non-root users, distroless images, resource limits
+- **Command**: `/docker` -- Builds multi-arch images, manages compose environments, scans with Trivy, optimizes layer sizes
+- **Skill**: `docker-patterns` -- Language-specific Dockerfiles (Node/Python/Go/Java), compose templates, BuildKit cache, network isolation
 
-### Commands
-- `/docker` - Quick-access command for docker-orchestration workflows
+## Quick Reference
 
-### Skills
-- **Docker Patterns** - Pattern library and knowledge base for docker-orchestration
+```bash
+# Build with BuildKit cache
+DOCKER_BUILDKIT=1 docker build \
+  --cache-from myregistry/myapp:buildcache \
+  --build-arg BUILDKIT_INLINE_CACHE=1 \
+  --tag myapp:$(git rev-parse --short HEAD) .
 
-## Quick Start
+# Multi-arch build
+docker buildx build --platform linux/amd64,linux/arm64 \
+  --push --tag myregistry/myapp:v1.0.0 .
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+# Compose: start with rebuild
+docker compose up --build --remove-orphans
 
-## Usage Examples
+# Scan for vulnerabilities
+trivy image --severity HIGH,CRITICAL --exit-code 1 myapp:latest
 
+# Lint Dockerfile
+docker run --rm -i hadolint/hadolint < Dockerfile
+
+# Analyze layer sizes
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock \
+  wagoodman/dive:latest myapp:latest
 ```
-# Use the command directly
-/docker analyze
 
-# Use the command with specific input
-/docker generate --context "your project"
+## Key Principles
 
-# Reference patterns from the skill
-"Apply docker-patterns patterns to this implementation"
-```
+**Layer order**: Copy dependency manifests (package.json, requirements.txt) and install before copying source code. Source code changes invalidate everything after the COPY; dependency install is expensive and should be cached.
 
-## Key Patterns
+**Multi-stage builds**: Separate build environment from runtime. Final image should contain only what's needed to run -- not compilers, test frameworks, or dev tools.
 
-- Follow established conventions for docker-orchestration
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+**Non-root user**: Always define a non-root user with `adduser`/`useradd` and switch to it before `CMD`/`ENTRYPOINT`. Running as root = privilege escalation if container breaks out.
+
+**Health checks**: Define `HEALTHCHECK` in Dockerfile or in `compose.yml`. Without it, docker-compose and orchestrators can't know if your app is actually ready.
+
+**Resource limits**: Always set `mem_limit` in production. Unbounded containers are how one service takes down an entire host.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [container-registry](../container-registry/) -- ECR/GHCR push, Cosign signing, image lifecycle
+- [kubernetes-operations](../kubernetes-operations/) -- Running containers in Kubernetes
+- [github-actions](../github-actions/) -- CI pipeline for build, scan, push
+- [infrastructure-security](../infrastructure-security/) -- Dockerfile security scanning with Checkov

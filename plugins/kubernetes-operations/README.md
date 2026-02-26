@@ -1,46 +1,54 @@
-# Kubernetes Operations
+# Kubernetes Operations Plugin
 
-K8s deployments, Helm charts, operators, troubleshooting
+Deployments, HPA/KEDA, Helm charts, PodDisruptionBudgets, NetworkPolicy, kubectl debugging, and cluster upgrades.
 
-## What's Included
+## Components
 
-### Agents
-- **K8s Engineer** - Specialized agent for K8s deployments, Helm charts, operators, troubleshooting
+- **Agent**: `k8s-engineer` -- Rolling updates, HPA/KEDA, Helm chart authoring, NetworkPolicy, PDB, debug techniques
+- **Command**: `/k8s` -- Deploys with Helm, scales workloads, debugs pods with ephemeral containers, manages rollouts
+- **Skill**: `k8s-patterns` -- Production Deployment YAML, Helm values pattern, KEDA ScaledObject, LimitRange, upgrade checklist
 
-### Commands
-- `/k8s` - Quick-access command for kubernetes-operations workflows
+## Quick Reference
 
-### Skills
-- **K8s Patterns** - Pattern library and knowledge base for kubernetes-operations
+```bash
+# Deploy with Helm (atomic rollback on failure)
+helm upgrade --install myapp ./charts/myapp \
+  -n production --values values-prod.yaml \
+  --set image.tag=$TAG --wait --atomic
 
-## Quick Start
+# Check rollout status
+kubectl rollout status deployment/myapp -n production
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+# Debug a failing pod
+kubectl describe pod $POD -n production | tail -30
+kubectl logs $POD -n production --previous
 
-## Usage Examples
+# Ephemeral container for distroless images
+kubectl debug -it pod/$POD --image=busybox --target=myapp -n production
 
+# Rollback
+kubectl rollout undo deployment/myapp -n production
+helm rollback myapp 1 -n production
+
+# Resource usage
+kubectl top pods -n production --sort-by=cpu
 ```
-# Use the command directly
-/k8s analyze
 
-# Use the command with specific input
-/k8s generate --context "your project"
+## Critical Configs for Production
 
-# Reference patterns from the skill
-"Apply k8s-patterns patterns to this implementation"
-```
+**Readiness probe**: Required. Without it, Kubernetes routes traffic to pods that aren't ready. Use `/ready` endpoint (checks DB connectivity, etc.) separate from `/health`.
 
-## Key Patterns
+**Resource requests and limits**: Required. Without requests, scheduler can't make placement decisions. Without limits, a memory leak takes down the node.
 
-- Follow established conventions for kubernetes-operations
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+**PodDisruptionBudget**: Required for HA. Without PDB, node drains or upgrades can take all pods offline simultaneously.
+
+**topologySpreadConstraints**: Spread pods across zones to survive AZ failures. Use `topology.kubernetes.io/zone` key.
+
+**terminationGracePeriodSeconds + preStop sleep**: Allows in-flight requests to complete before pod shutdown. Set to > your request timeout.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [helm](../release-management/) -- Helm via Argo Rollouts and GitOps
+- [monitoring-observability](../monitoring-observability/) -- Prometheus metrics from K8s workloads
+- [secret-management](../secret-management/) -- External Secrets Operator for K8s secrets
+- [service-mesh](../service-mesh/) -- Istio/Linkerd for inter-pod mTLS and traffic management

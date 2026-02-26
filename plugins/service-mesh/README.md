@@ -1,46 +1,59 @@
-# Service Mesh
+# Service Mesh Plugin
 
-Istio, Linkerd, mTLS, traffic policies
+Istio mTLS, traffic management (VirtualService/DestinationRule), circuit breaking, Linkerd, Envoy proxy debugging, and L7 authorization policies.
 
-## What's Included
+## Components
 
-### Agents
-- **Mesh Engineer** - Specialized agent for Istio, Linkerd, mTLS, traffic policies
+- **Agent**: `mesh-engineer` -- Istio vs Linkerd selection, mTLS configuration, circuit breaker tuning, traffic splitting, JWT at the mesh level
+- **Command**: `/service-mesh` -- Installs mesh, manages traffic policies, debugs Envoy config, checks mTLS status
+- **Skill**: `mesh-patterns` -- Istio install, Ingress Gateway, Linkerd observability, traffic mirroring, JWT RequestAuthentication
 
-### Commands
-- `/service-mesh` - Quick-access command for service-mesh workflows
+## Quick Reference
 
-### Skills
-- **Mesh Patterns** - Pattern library and knowledge base for service-mesh
+```bash
+# Check mTLS status across a namespace
+istioctl authn tls-check -n production
 
-## Quick Start
+# View VirtualService routing
+kubectl describe virtualservice payment-api -n production
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+# Check Envoy clusters for a pod
+istioctl proxy-config cluster $POD -n production
 
-## Usage Examples
+# Linkerd: real-time success rate per deployment
+linkerd viz stat deploy -n production
 
-```
-# Use the command directly
-/service-mesh analyze
-
-# Use the command with specific input
-/service-mesh generate --context "your project"
-
-# Reference patterns from the skill
-"Apply mesh-patterns patterns to this implementation"
+# Analyze Istio config for issues
+istioctl analyze -n production
 ```
 
-## Key Patterns
+## mTLS Status Modes
 
-- Follow established conventions for service-mesh
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+| Mode | Behavior |
+|------|----------|
+| STRICT | All traffic must use mTLS. Plaintext rejected. **Use in production.** |
+| PERMISSIVE | Accept both mTLS and plaintext. **Migration only.** |
+| DISABLE | No mTLS. **Never in production.** |
+
+**Migration path**: Deploy new services -> set PERMISSIVE -> verify all pods injected -> set STRICT -> verify no plaintext traffic -> done.
+
+## Circuit Breaker Tuning
+
+Start conservative, tighten based on real data:
+
+```yaml
+outlierDetection:
+  consecutive5xxErrors: 10   # Start high to avoid false ejections
+  interval: 60s
+  baseEjectionTime: 30s
+  maxEjectionPercent: 50     # Never eject more than half the pool
+```
+
+If you set `maxEjectionPercent: 100` and have only 2 replicas, one bad deploy ejects all traffic. Keep it at 50% or less.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [kubernetes-operations](../kubernetes-operations/) -- Pod networking, ServiceAccount for mesh auth
+- [load-balancing](../load-balancing/) -- East-west (pod-to-pod) vs north-south (ingress) LB
+- [monitoring-observability](../monitoring-observability/) -- Istio metrics in Prometheus, Kiali
+- [infrastructure-security](../infrastructure-security/) -- mTLS as zero-trust network control

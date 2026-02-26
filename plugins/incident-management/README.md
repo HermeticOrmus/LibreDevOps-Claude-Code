@@ -1,46 +1,55 @@
-# Incident Management
+# Incident Management Plugin
 
-Incident response, postmortems, on-call procedures
+P1-P4 severity matrix, on-call rotation (PagerDuty/OpsGenie), SLO burn rate alerting, postmortem templates, and runbook structure.
 
-## What's Included
+## Components
 
-### Agents
-- **Incident Commander** - Specialized agent for Incident response, postmortems, on-call procedures
+- **Agent**: `incident-commander` -- Severity classification, response coordination, burn rate alerting, blameless postmortems
+- **Command**: `/incident` -- Declares incidents, provides diagnosis commands, generates postmortem structure, configures Alertmanager
+- **Skill**: `incident-patterns` -- PagerDuty Terraform, multi-window SLO alerts, postmortem template, Slack channel format
 
-### Commands
-- `/incident` - Quick-access command for incident-management workflows
+## When to Use
 
-### Skills
-- **Incident Patterns** - Pattern library and knowledge base for incident-management
+- Declaring and managing active P1/P2 incidents
+- Designing on-call rotation schedules and escalation policies
+- Writing SLO burn rate alerting rules (fast burn + slow burn windows)
+- Conducting blameless postmortems with timeline reconstruction
+- Building runbooks for common failure scenarios
+- Configuring Alertmanager routing and notification channels
 
-## Quick Start
+## Quick Reference
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+```bash
+# Check recent deployments (first step in any incident)
+kubectl rollout history deployment/myapp -n production
 
-## Usage Examples
+# Roll back bad deployment
+kubectl rollout undo deployment/myapp -n production
 
+# Check pod health
+kubectl get pods -n production -o wide
+kubectl describe pod <pod> -n production | tail -20
+kubectl logs <pod> -n production --previous
+
+# PagerDuty: create incident via API
+curl -X POST https://api.pagerduty.com/incidents \
+  -H "Authorization: Token token=$PD_API_KEY" \
+  -H "From: oncall@example.com" \
+  -d '{"incident": {"type": "incident", "title": "...", "urgency": "high"}}'
 ```
-# Use the command directly
-/incident analyze
 
-# Use the command with specific input
-/incident generate --context "your project"
+## SLO Burn Rate Math
 
-# Reference patterns from the skill
-"Apply incident-patterns patterns to this implementation"
-```
+99.9% SLO = 43.8 minutes/month error budget:
+- **14.4x burn rate** = budget depleted in 72 minutes (fast burn, P1)
+- **6x burn rate** = budget depleted in ~5 hours (slow burn, P2)
+- **1x burn rate** = exactly on target (do nothing)
 
-## Key Patterns
-
-- Follow established conventions for incident-management
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+Multi-window alerting: check both 1hr/5min (fast burn) AND 6hr/30min (slow burn) windows. Short-duration spikes won't page; sustained slow burns will.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [monitoring-observability](../monitoring-observability/) -- Prometheus alerting rules, Grafana dashboards
+- [log-management](../log-management/) -- Log aggregation for timeline reconstruction
+- [kubernetes-operations](../kubernetes-operations/) -- kubectl diagnosis commands
+- [database-operations](../database-operations/) -- DB lock investigation during incidents

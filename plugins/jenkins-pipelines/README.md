@@ -1,46 +1,54 @@
-# Jenkins Pipelines
+# Jenkins Pipelines Plugin
 
-Jenkins declarative/scripted pipelines, shared libraries
+Declarative Jenkinsfiles, shared libraries, Kubernetes dynamic agents, JCasC configuration, and pipeline unit testing.
 
-## What's Included
+## Components
 
-### Agents
-- **Jenkins Engineer** - Specialized agent for Jenkins declarative/scripted pipelines, shared libraries
+- **Agent**: `jenkins-engineer` -- Declarative pipeline structure, shared library design, JCasC, Kubernetes agents
+- **Command**: `/jenkins` -- Generates Jenkinsfiles, scaffolds shared libraries, tests with JenkinsPipelineUnit, applies JCasC
+- **Skill**: `jenkins-patterns` -- Complete pipeline with parallel stages, shared library vars, JCasC YAML, error handling
 
-### Commands
-- `/jenkins` - Quick-access command for jenkins-pipelines workflows
+## Quick Reference
 
-### Skills
-- **Jenkins Patterns** - Pattern library and knowledge base for jenkins-pipelines
-
-## Quick Start
-
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
-
-## Usage Examples
-
+```groovy
+// Jenkinsfile skeleton
+@Library('jenkins-shared-library@main') _
+pipeline {
+    agent none
+    options { timestamps(); timeout(time:30, unit:'MINUTES') }
+    stages {
+        stage('Build') {
+            agent { label 'linux' }
+            steps { sh 'docker build .' }
+        }
+    }
+    post { always { cleanWs() } }
+}
 ```
-# Use the command directly
-/jenkins analyze
 
-# Use the command with specific input
-/jenkins generate --context "your project"
+```bash
+# Reload JCasC without restart
+curl -X POST https://jenkins.example.com/configuration-as-code/reload \
+  -H "Authorization: Bearer $TOKEN"
 
-# Reference patterns from the skill
-"Apply jenkins-patterns patterns to this implementation"
+# Export current config
+curl -s https://jenkins.example.com/configuration-as-code/export \
+  -H "Authorization: Bearer $TOKEN" > jenkins-current.yml
 ```
 
 ## Key Patterns
 
-- Follow established conventions for jenkins-pipelines
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+**Declarative over scripted**: Declarative pipelines have clearer syntax, better visualization, and easier maintenance. Use `script {}` blocks only for logic that declarative can't express.
+
+**Shared libraries for DRY**: When the same deployment steps appear in 3+ repos, extract to a shared library `vars/` function. Register the library in JCasC `globalLibraries`.
+
+**Dynamic Kubernetes agents**: No persistent build agents needed. Each job gets a clean pod from the Kubernetes plugin. Specify multi-container pods for tools (docker-in-docker, kubectl, helm) without polluting a single image.
+
+**JCasC for everything**: Never configure Jenkins through the UI in production. All configuration in `jenkins.yml` managed in version control. Reload without restart via the API.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [github-actions](../github-actions/) -- Modern alternative for GitHub-hosted projects
+- [gitlab-ci](../gitlab-ci/) -- GitLab alternative if using GitLab
+- [kubernetes-operations](../kubernetes-operations/) -- Kubernetes plugin setup for dynamic agents
+- [container-registry](../container-registry/) -- Registry auth in Jenkins credentials

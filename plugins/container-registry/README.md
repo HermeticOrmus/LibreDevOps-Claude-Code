@@ -1,46 +1,58 @@
-# Container Registry
+# Container Registry Plugin
 
-Container image management, scanning, signing
+ECR, GHCR, Harbor -- image building, vulnerability scanning (Trivy), Cosign signing, multi-arch builds, and lifecycle policies.
 
-## What's Included
+## Components
 
-### Agents
-- **Registry Manager** - Specialized agent for Container image management, scanning, signing
+- **Agent**: `registry-manager` -- Image supply chain security, ECR lifecycle policies, multi-arch builds, signing strategy
+- **Command**: `/registry` -- Push multi-arch images, scan with Trivy, sign with Cosign, clean up stale images
+- **Skill**: `registry-patterns` -- ECR Terraform, Trivy in GitHub Actions, Cosign keyless, optimized Dockerfiles, SBOM
 
-### Commands
-- `/registry` - Quick-access command for container-registry workflows
+## When to Use
 
-### Skills
-- **Registry Patterns** - Pattern library and knowledge base for container-registry
+- Setting up ECR repositories with lifecycle policies and scanning
+- Adding Trivy vulnerability scanning to CI pipelines (fail on HIGH/CRITICAL)
+- Signing images with Cosign for supply chain security (keyless OIDC)
+- Building multi-arch images (amd64 + arm64) with Docker Buildx
+- Optimizing Dockerfile layer order to maximize build cache hits
+- Generating and attaching SBOMs to container images
 
-## Quick Start
+## Quick Reference
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+```bash
+# ECR login
+aws ecr get-login-password --region us-east-1 | \
+  docker login --username AWS --password-stdin ACCOUNT.dkr.ecr.us-east-1.amazonaws.com
 
-## Usage Examples
+# Multi-arch build + push
+docker buildx build --platform linux/amd64,linux/arm64 \
+  --tag ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/myapp:v1.0.0 --push .
 
+# Scan image
+trivy image --severity HIGH,CRITICAL --exit-code 1 myapp:latest
+
+# Sign with Cosign (keyless)
+export COSIGN_EXPERIMENTAL=1
+cosign sign --yes ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/myapp@sha256:DIGEST
+
+# List ECR images
+aws ecr describe-images --repository-name myapp \
+  --query 'sort_by(imageDetails, &imagePushedAt)[*].{Tags:imageTags,Pushed:imagePushedAt}'
 ```
-# Use the command directly
-/registry analyze
 
-# Use the command with specific input
-/registry generate --context "your project"
+## Image Tag Strategy
 
-# Reference patterns from the skill
-"Apply registry-patterns patterns to this implementation"
-```
-
-## Key Patterns
-
-- Follow established conventions for container-registry
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+| Context | Tag Format | Mutable? |
+|---------|-----------|----------|
+| Production | `v1.2.3` or `sha-abc1234` | No (IMMUTABLE on ECR) |
+| Staging | `main-latest` | Yes |
+| PR Preview | `pr-123-latest` | Yes |
+| Build cache | `buildcache` | Yes |
+| Never use | `latest` for production | -- |
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [docker-orchestration](../docker-orchestration/) -- Dockerfile best practices, multi-stage builds
+- [github-actions](../github-actions/) -- CI pipeline for build-scan-sign workflow
+- [infrastructure-security](../infrastructure-security/) -- Checkov container scanning
+- [kubernetes-operations](../kubernetes-operations/) -- Image pull secrets, ECR auth

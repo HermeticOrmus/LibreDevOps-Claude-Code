@@ -1,46 +1,71 @@
-# Database Operations
+# Database Operations Plugin
 
-DB migrations, backups, replication, scaling
+PostgreSQL query optimization, EXPLAIN ANALYZE, indexing, VACUUM, pgBouncer, streaming replication, Flyway migrations.
 
-## What's Included
+## Components
 
-### Agents
-- **Dba Specialist** - Specialized agent for DB migrations, backups, replication, scaling
+- **Agent**: `dba-specialist` -- Reads EXPLAIN ANALYZE, designs indexes, tunes autovacuum, configures pgBouncer
+- **Command**: `/db-ops` -- Runs migrations, analyzes slow queries, monitors connections/locks/replication
+- **Skill**: `db-ops-patterns` -- EXPLAIN guide, index types, pgBouncer config, Flyway patterns, pg_stat_statements queries
 
-### Commands
-- `/db-ops` - Quick-access command for database-operations workflows
+## When to Use
 
-### Skills
-- **Db Ops Patterns** - Pattern library and knowledge base for database-operations
+- Diagnosing slow queries (EXPLAIN ANALYZE interpretation)
+- Designing indexes (B-tree vs GIN vs BRIN, partial vs covering)
+- Setting up pgBouncer for connection pooling
+- Configuring PostgreSQL streaming replication
+- Running zero-downtime database migrations
+- Monitoring blocking locks, connection states, table bloat
 
-## Quick Start
+## Quick Reference
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+```sql
+-- Find slow queries
+SELECT LEFT(query,80), calls, round(mean_exec_time::numeric,1) AS avg_ms
+FROM pg_stat_statements
+WHERE mean_exec_time > 50
+ORDER BY mean_exec_time DESC LIMIT 10;
 
-## Usage Examples
+-- Find missing indexes (large sequential scans)
+SELECT tablename, seq_scan, n_live_tup
+FROM pg_stat_user_tables
+WHERE seq_scan > 100 AND n_live_tup > 10000
+ORDER BY seq_tup_read DESC;
 
+-- Blocking locks
+SELECT blocked_locks.pid, blocked_activity.query AS blocked,
+       blocking_activity.query AS blocking
+FROM pg_locks blocked_locks
+JOIN pg_stat_activity blocked_activity ON blocked_activity.pid = blocked_locks.pid
+JOIN pg_locks blocking_locks ON blocking_locks.relation = blocked_locks.relation
+  AND blocking_locks.pid != blocked_locks.pid
+JOIN pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid
+WHERE NOT blocked_locks.GRANTED;
+
+-- Table and index sizes
+SELECT tablename,
+       pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size
+FROM pg_tables WHERE schemaname='public'
+ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 ```
-# Use the command directly
-/db-ops analyze
 
-# Use the command with specific input
-/db-ops generate --context "your project"
+## Index Type Decision
 
-# Reference patterns from the skill
-"Apply db-ops-patterns patterns to this implementation"
-```
+| Data Type / Query | Index Type |
+|------------------|-----------|
+| Equality, range, sort | B-tree (default) |
+| JSONB `@>`, `?` operators | GIN |
+| Full-text search `@@` | GIN |
+| Array contains | GIN |
+| Geometric, range types | GiST |
+| Time-series append-only (created_at) | BRIN |
+| Only equality `=` | Hash (rarely better than B-tree) |
 
-## Key Patterns
-
-- Follow established conventions for database-operations
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+Always use `CREATE INDEX CONCURRENTLY` on production tables.
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [backup-disaster-recovery](../backup-disaster-recovery/) -- pgBackRest WAL archiving, PITR
+- [monitoring-observability](../monitoring-observability/) -- pg_stat_statements dashboards, slow query alerts
+- [secret-management](../secret-management/) -- Database credentials rotation with Vault
+- [kubernetes-operations](../kubernetes-operations/) -- StatefulSets for PostgreSQL, PVC management

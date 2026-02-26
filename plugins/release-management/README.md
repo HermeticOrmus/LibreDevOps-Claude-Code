@@ -1,46 +1,56 @@
-# Release Management
+# Release Management Plugin
 
-Release strategies, blue-green, canary, feature flags
+GitOps with ArgoCD, canary deployments with Argo Rollouts, Helm release management, semantic versioning, and blue/green deployments.
 
-## What's Included
+## Components
 
-### Agents
-- **Release Manager** - Specialized agent for Release strategies, blue-green, canary, feature flags
+- **Agent**: `release-manager` -- Deployment strategy selection, Argo Rollouts canary with analysis, ArgoCD GitOps, semantic-release automation
+- **Command**: `/release` -- Deploys with Helm/ArgoCD, promotes canaries, rolls back releases, checks deployment status
+- **Skill**: `release-patterns` -- ArgoCD ApplicationSet, GitHub Actions semantic release pipeline, ECS blue/green Terraform, .releaserc config, rollback runbook
 
-### Commands
-- `/release` - Quick-access command for release-management workflows
+## Quick Reference
 
-### Skills
-- **Release Patterns** - Pattern library and knowledge base for release-management
+```bash
+# Deploy with Helm (safe: atomic rollback)
+helm upgrade --install myapp ./charts/myapp \
+  -n production --values values-prod.yaml \
+  --set image.tag=$TAG --wait --atomic
 
-## Quick Start
+# Check what will change before deploying
+helm diff upgrade myapp ./charts/myapp --values values-prod.yaml --set image.tag=$TAG
 
-1. Copy this plugin to your Claude Code plugins directory
-2. Use the agent for guided, multi-step workflows
-3. Use the command for quick, targeted operations
-4. Reference the skill for patterns and best practices
+# Rollback Helm release
+helm rollback myapp -n production --wait
 
-## Usage Examples
+# Argo Rollouts: watch canary progress
+kubectl argo rollouts get rollout myapp -n production --watch
 
+# Promote canary to next step
+kubectl argo rollouts promote myapp -n production
+
+# Abort canary and rollback
+kubectl argo rollouts undo myapp -n production
 ```
-# Use the command directly
-/release analyze
 
-# Use the command with specific input
-/release generate --context "your project"
+## Deployment Strategy Decision
 
-# Reference patterns from the skill
-"Apply release-patterns patterns to this implementation"
-```
+| Strategy | When | Rollback Time |
+|----------|------|---------------|
+| Rolling update | Default for most K8s apps | ~30s (kubectl rollout undo) |
+| Canary + analysis | High-traffic, risky changes | Minutes (abort rollout) |
+| Blue/Green | Stateless, need instant switch | Seconds (update LB) |
+| Feature flags | Untested features, A/B tests | Instant (toggle flag) |
 
-## Key Patterns
+## ArgoCD Health Check
 
-- Follow established conventions for release-management
-- Validate inputs before processing
-- Document decisions and rationale
-- Test outputs against requirements
-- Iterate based on feedback
+Apps are Healthy when all resources are healthy. If stuck:
+1. `argocd app diff myapp` -- see what's out of sync
+2. `argocd app sync myapp --prune` -- sync with pruning
+3. Check pod events: `kubectl describe pod -n production -l app=myapp`
 
 ## Related Plugins
 
-Check the main README for related plugins in this collection.
+- [kubernetes-operations](../kubernetes-operations/) -- Helm, kubectl rollout commands
+- [github-actions](../github-actions/) -- CI/CD pipelines for building images
+- [container-registry](../container-registry/) -- ECR image push, image signing
+- [monitoring-observability](../monitoring-observability/) -- Prometheus analysis for Argo Rollouts
