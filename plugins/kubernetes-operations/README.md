@@ -1,54 +1,32 @@
-# Kubernetes Operations Plugin
+# Kubernetes Operations
 
-Deployments, HPA/KEDA, Helm charts, PodDisruptionBudgets, NetworkPolicy, kubectl debugging, and cluster upgrades.
+> Pod design, RBAC, NetworkPolicies, autoscaling, operator patterns. The k8s expertise that separates "works in lab" from "survives production traffic."
 
-## Components
+## Contents
 
-- **Agent**: `k8s-engineer` -- Rolling updates, HPA/KEDA, Helm chart authoring, NetworkPolicy, PDB, debug techniques
-- **Command**: `/k8s` -- Deploys with Helm, scales workloads, debugs pods with ephemeral containers, manages rollouts
-- **Skill**: `k8s-patterns` -- Production Deployment YAML, Helm values pattern, KEDA ScaledObject, LimitRange, upgrade checklist
+- **Agent**: `k8s-engineer` — senior Kubernetes operator
+- **Command**: `/k8s` — manifests, troubleshooting, design
+- **Skill**: pattern library covering Pod design, RBAC, autoscaling, NetworkPolicies, ingress, common pitfalls
 
-## Quick Reference
+## Key capabilities
 
-```bash
-# Deploy with Helm (atomic rollback on failure)
-helm upgrade --install myapp ./charts/myapp \
-  -n production --values values-prod.yaml \
-  --set image.tag=$TAG --wait --atomic
+- **Pod design**: resource requests/limits (sizing, not magic numbers), liveness/readiness/startup probes (each does something different), PDBs, affinity/anti-affinity, topology spread
+- **RBAC**: ServiceAccount per workload, Role vs ClusterRole, binding patterns, escape patterns to avoid
+- **NetworkPolicies**: default-deny baseline, egress rules, namespace isolation, identity-based policies (Cilium, Calico)
+- **Autoscaling**: HPA (CPU/memory + custom metrics), VPA (vertical), KEDA (event-driven), Cluster Autoscaler
+- **Operator patterns**: CRDs, controller loops, when to write vs use existing operators
+- **Ingress**: nginx, Traefik, gateway-api, TLS, rate limiting
+- **Pod Security Standards**: Restricted vs Baseline vs Privileged; what gets blocked
 
-# Check rollout status
-kubectl rollout status deployment/myapp -n production
+## When to use
 
-# Debug a failing pod
-kubectl describe pod $POD -n production | tail -30
-kubectl logs $POD -n production --previous
+- Designing new k8s workloads
+- Debugging "pod won't schedule," "OOMKilled," "ImagePullBackOff"
+- Multi-tenancy design (namespaces, RBAC, network isolation)
+- Custom operator design
+- Migration from imperative kubectl to declarative GitOps
 
-# Ephemeral container for distroless images
-kubectl debug -it pod/$POD --image=busybox --target=myapp -n production
+## Compatibility
 
-# Rollback
-kubectl rollout undo deployment/myapp -n production
-helm rollback myapp 1 -n production
-
-# Resource usage
-kubectl top pods -n production --sort-by=cpu
-```
-
-## Critical Configs for Production
-
-**Readiness probe**: Required. Without it, Kubernetes routes traffic to pods that aren't ready. Use `/ready` endpoint (checks DB connectivity, etc.) separate from `/health`.
-
-**Resource requests and limits**: Required. Without requests, scheduler can't make placement decisions. Without limits, a memory leak takes down the node.
-
-**PodDisruptionBudget**: Required for HA. Without PDB, node drains or upgrades can take all pods offline simultaneously.
-
-**topologySpreadConstraints**: Spread pods across zones to survive AZ failures. Use `topology.kubernetes.io/zone` key.
-
-**terminationGracePeriodSeconds + preStop sleep**: Allows in-flight requests to complete before pod shutdown. Set to > your request timeout.
-
-## Related Plugins
-
-- [helm](../release-management/) -- Helm via Argo Rollouts and GitOps
-- [monitoring-observability](../monitoring-observability/) -- Prometheus metrics from K8s workloads
-- [secret-management](../secret-management/) -- External Secrets Operator for K8s secrets
-- [service-mesh](../service-mesh/) -- Istio/Linkerd for inter-pod mTLS and traffic management
+- Kubernetes 1.27+ (older versions noted where APIs differ)
+- All distributions: EKS, GKE, AKS, OCI OKE, on-prem (kubeadm, k3s, RKE2), kind/minikube for local

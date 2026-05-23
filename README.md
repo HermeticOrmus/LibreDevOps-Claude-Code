@@ -1,203 +1,129 @@
 <p align="center">
-  <h1 align="center">LibreDevOps-Claude-Code</h1>
-  <p align="center">
-    <img src="https://img.shields.io/badge/plugins-25-cb4b16?style=flat-square" alt="Plugins: 25" />
-    <img src="https://img.shields.io/badge/license-MIT-cb4b16?style=flat-square" alt="License: MIT" />
-    <img src="https://img.shields.io/badge/claude--code-plugins-cb4b16?style=flat-square" alt="Claude Code Plugins" />
-  </p>
+  <img src="https://ormus.solutions/mascot/chain_braces_to_swan.gif" alt="LibreDevOps Claude Code" width="128" style="image-rendering: pixelated;" />
 </p>
 
-A curated collection of Claude Code plugins for DevOps engineering, infrastructure automation, and CI/CD pipelines. From Terraform to Kubernetes, monitoring to incident response.
+<h1 align="center">LibreDevOps Claude Code</h1>
+
+<p align="center">
+  <em>DevOps engineering with Claude Code — 25 specialized plugins covering infrastructure, containers, CI/CD, observability, and cloud operations</em>
+</p>
+
+<p align="center">
+  <a href="https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/stargazers"><img src="https://img.shields.io/github/stars/HermeticOrmus/LibreDevOps-Claude-Code?style=flat-square&color=aa8142" alt="Stars" /></a>
+  <a href="https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/blob/main/LICENSE"><img src="https://img.shields.io/github/license/HermeticOrmus/LibreDevOps-Claude-Code?style=flat-square&color=aa8142" alt="License" /></a>
+  <img src="https://img.shields.io/badge/DevOps-aa8142?style=flat-square&logo=kubernetes&logoColor=white" alt="DevOps" />
+  <img src="https://img.shields.io/badge/Claude_Code-aa8142?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Code" />
+</p>
 
 ---
 
-## What This Is
+> **Skills, agents, commands, and workflows for DevOps engineering with Claude Code.**
 
-LibreDevOps is a **plugin collection** that gives Claude Code deep expertise in DevOps and infrastructure engineering. Each plugin provides an **agent** (specialized persona), a **command** (slash command interface), and a **skill** (knowledge base and patterns) -- all designed for production-grade infrastructure work.
+DevOps is where YAML compounds. Generic AI coding produces config that "works in lab" then drowns under production load patterns the AI didn't anticipate. **LibreDevOps gives Claude Code the operational expertise to ship infrastructure that survives 3am incidents.**
 
-This is not tutorial-grade content. Every pattern, template, and recommendation accounts for state management, secret handling, failure modes, and operational reality.
+Twenty-five domain plugins covering Kubernetes, Terraform, cloud platforms, CI/CD, observability, incident management, and the operational layer between them.
 
 ---
 
-## Quick Start
+## Where LibreDevOps fits
 
-### 1. Clone the repository
+| Claude Code component | LibreDevOps provides |
+|---|---|
+| **Plugins** | 25 plugins (k8s, Terraform, AWS/Azure/GCP, CI/CD, observability, more) |
+| **Agents** | Specialist agents per plugin |
+| **Commands** | Quick-access slash commands |
+| **Skills** | Pattern libraries (manifests, modules, pipelines, alert rules) |
+
+---
+
+## The 25 plugins
+
+### Infrastructure as code
+
+| Plugin | Domain |
+|---|---|
+| **kubernetes-operations** ⭐ | Pod design, RBAC, NetworkPolicies, autoscaling, operator patterns |
+| terraform-patterns | Modules, state, workspaces, drift detection |
+| ansible-automation | Playbooks, roles, inventory, vault |
+| configuration-management | Drift, GitOps, declarative vs imperative |
+| docker-orchestration | Compose, Swarm, multi-arch builds |
+| container-registry | ECR, GCR, ACR, Harbor, image signing |
+
+### Cloud platforms
+
+| Plugin | Domain |
+|---|---|
+| aws-infrastructure | VPCs, IAM, ELB, RDS, S3 patterns |
+| azure-infrastructure | Resource groups, VNets, AKS, Azure AD |
+| gcp-infrastructure | Projects, VPCs, GKE, IAM |
+| serverless-patterns | Lambda, Cloud Functions, Functions, cold starts |
+| service-mesh | Istio, Linkerd, Consul, observability |
+
+### CI/CD
+
+| Plugin | Domain |
+|---|---|
+| github-actions | Workflows, secrets, reusable actions, matrix builds |
+| gitlab-ci | Pipelines, runners, environments, deployments |
+| jenkins-pipelines | Declarative + scripted, plugins, shared libraries |
+| release-management | Semver, changelogs, feature flags, canaries |
+
+### Operations + reliability
+
+| Plugin | Domain |
+|---|---|
+| monitoring-observability | Prometheus, Grafana, OpenTelemetry, SLI/SLO/SLA |
+| log-management | Loki, Elastic, CloudWatch Logs, log routing |
+| incident-management | PagerDuty, runbooks, postmortems, blameless |
+| backup-disaster-recovery | RTO/RPO, point-in-time, cross-region |
+| load-balancing | L4 vs L7, health checks, sticky sessions |
+| networking-dns | DNS strategies, ingress, egress, NAT |
+
+### Security + cost
+
+| Plugin | Domain |
+|---|---|
+| secret-management | Vault, AWS Secrets Manager, sealed-secrets, rotation |
+| infrastructure-security | IAM least-privilege, network segmentation, hardening |
+| cost-optimization | RI/SP, spot, FinOps, tagging strategies |
+| database-operations | Migrations, replication, backups, point-in-time recovery |
+
+⭐ = depth-complete plugin. Remaining 24 are shell-improved.
+
+---
+
+## Quick start
 
 ```bash
-git clone https://github.com/HermeticOrmus/LibreDevOps-Claude-Code.git
+git clone https://github.com/HermeticOrmus/LibreDevOps-Claude-Code.git ~/projects/LibreDevOps-Claude-Code
+cd ~/projects/LibreDevOps-Claude-Code
+./setup.sh
 ```
 
-### 2. Copy a plugin into your project
+Then:
 
-```bash
-# Example: Add Terraform patterns to your project
-cp -r LibreDevOps-Claude-Code/plugins/terraform-patterns/.claude/ your-project/.claude/
-
-# Or cherry-pick specific components
-cp LibreDevOps-Claude-Code/plugins/terraform-patterns/agents/terraform-engineer/AGENT.md \
-   your-project/.claude/agents/terraform-engineer.md
+```
+/k8s design a Pod for a high-traffic API. 4 replicas, autoscale 4-20 on CPU 70%, anti-affinity across zones, PDB minimum 2, resource limits, NetworkPolicy denying egress except to RDS
 ```
 
-### 3. Copy the DevOps CLAUDE.md template
-
-```bash
-cp LibreDevOps-Claude-Code/templates/CLAUDE.md your-project/CLAUDE.md
-# Edit to match your infrastructure stack
-```
-
-### 4. Install hooks (optional)
-
-```bash
-cp LibreDevOps-Claude-Code/hooks/*.sh your-project/.claude/hooks/
-chmod 755 your-project/.claude/hooks/*.sh
-```
+See [QUICK_START.md](QUICK_START.md).
 
 ---
 
-## Plugins
+## Learning paths
 
-| # | Plugin | Description | Category |
-|---|--------|-------------|----------|
-| 1 | [ansible-automation](plugins/ansible-automation/) | Ansible playbooks, roles, inventory management | IaC |
-| 2 | [aws-infrastructure](plugins/aws-infrastructure/) | AWS services, CloudFormation, CDK patterns | Cloud |
-| 3 | [azure-infrastructure](plugins/azure-infrastructure/) | Azure services, ARM templates, Bicep | Cloud |
-| 4 | [backup-disaster-recovery](plugins/backup-disaster-recovery/) | Backup strategies, DR planning, RTO/RPO | Operations |
-| 5 | [configuration-management](plugins/configuration-management/) | Config management, environment parity, feature flags | IaC |
-| 6 | [container-registry](plugins/container-registry/) | Container image management, scanning, signing | Containers |
-| 7 | [cost-optimization](plugins/cost-optimization/) | Cloud cost analysis, right-sizing, FinOps | Operations |
-| 8 | [database-operations](plugins/database-operations/) | DB migrations, backups, replication, scaling | Operations |
-| 9 | [docker-orchestration](plugins/docker-orchestration/) | Docker Compose, multi-stage builds, optimization | Containers |
-| 10 | [gcp-infrastructure](plugins/gcp-infrastructure/) | GCP services, Deployment Manager, Cloud Build | Cloud |
-| 11 | [github-actions](plugins/github-actions/) | GitHub Actions workflows, reusable actions, matrix builds | CI/CD |
-| 12 | [gitlab-ci](plugins/gitlab-ci/) | GitLab CI/CD pipelines, runners, environments | CI/CD |
-| 13 | [incident-management](plugins/incident-management/) | Incident response, postmortems, on-call procedures | Operations |
-| 14 | [infrastructure-security](plugins/infrastructure-security/) | Infrastructure hardening, CIS benchmarks, compliance | Security |
-| 15 | [jenkins-pipelines](plugins/jenkins-pipelines/) | Jenkins declarative/scripted pipelines, shared libraries | CI/CD |
-| 16 | [kubernetes-operations](plugins/kubernetes-operations/) | K8s deployments, Helm charts, operators, troubleshooting | Containers |
-| 17 | [load-balancing](plugins/load-balancing/) | Load balancer config, traffic management, CDN | Networking |
-| 18 | [log-management](plugins/log-management/) | Centralized logging, ELK/Loki, log analysis | Observability |
-| 19 | [monitoring-observability](plugins/monitoring-observability/) | Prometheus, Grafana, tracing, SLOs/SLIs | Observability |
-| 20 | [networking-dns](plugins/networking-dns/) | Network architecture, DNS management, VPN, firewalls | Networking |
-| 21 | [release-management](plugins/release-management/) | Release strategies, blue-green, canary, feature flags | CI/CD |
-| 22 | [secret-management](plugins/secret-management/) | Vault, secret rotation, encryption, key management | Security |
-| 23 | [serverless-patterns](plugins/serverless-patterns/) | Lambda, Cloud Functions, serverless frameworks | Cloud |
-| 24 | [service-mesh](plugins/service-mesh/) | Istio, Linkerd, mTLS, traffic policies | Networking |
-| 25 | [terraform-patterns](plugins/terraform-patterns/) | Terraform modules, state management, workspaces | IaC |
+- **[Beginner](learning-paths/beginner.md)** — DevOps mindset, your first k8s deployment, GitOps
+- **[Intermediate](learning-paths/intermediate.md)** — multi-environment promotion, observability, incident response
+- **[Advanced](learning-paths/advanced.md)** — multi-region, FinOps, platform engineering, SRE
 
----
+## Compatibility
 
-## Architecture
-
-```
-LibreDevOps-Claude-Code/
-|
-|-- plugins/                    # 25 DevOps domain plugins
-|   |-- {plugin-name}/
-|   |   |-- README.md           # Plugin overview and usage
-|   |   |-- agents/             # Specialized agent definitions
-|   |   |   +-- {name}/AGENT.md
-|   |   |-- commands/           # Slash command definitions
-|   |   |   +-- {name}/COMMAND.md
-|   |   +-- skills/             # Knowledge base and patterns
-|   |       +-- {name}/SKILL.md
-|   +-- ...
-|
-|-- learning-paths/             # Progressive skill building
-|   |-- beginner.md             # Docker, basic CI/CD, first IaC
-|   |-- intermediate.md         # Kubernetes, Terraform, monitoring
-|   +-- advanced.md             # Multi-cloud, GitOps, chaos engineering
-|
-|-- hooks/                      # Session automation
-|   |-- session-start.sh        # Infrastructure context detection
-|   |-- pre-tool-use.sh         # Validation and secret scanning
-|   +-- post-tool-use.sh        # Drift detection and compliance
-|
-|-- templates/                  # Project configuration templates
-|   +-- CLAUDE.md               # DevOps-focused CLAUDE.md template
-|
-+-- .github/                    # Repository management
-    |-- FUNDING.yml
-    |-- PULL_REQUEST_TEMPLATE.md
-    +-- ISSUE_TEMPLATE/
-```
-
-### Plugin Anatomy
-
-Each plugin provides three components that work together:
-
-- **Agent** (`AGENT.md`) -- A specialized persona with defined expertise, behavior patterns, and output formats. Use when you need deep domain knowledge and structured guidance.
-- **Command** (`COMMAND.md`) -- A slash command interface for common operations. Use for quick, repeatable tasks.
-- **Skill** (`SKILL.md`) -- A knowledge base of patterns, anti-patterns, and references. Use as a reference library for best practices.
-
-### How Plugins Compose
-
-Plugins are designed to be used individually or combined. A typical infrastructure project might use:
-
-- `terraform-patterns` + `aws-infrastructure` for IaC on AWS
-- `github-actions` + `release-management` for CI/CD
-- `monitoring-observability` + `incident-management` for operations
-- `secret-management` + `infrastructure-security` for security posture
-
----
-
-## Learning Paths
-
-| Path | Audience | Topics |
-|------|----------|--------|
-| [Beginner](learning-paths/beginner.md) | New to DevOps | Docker basics, first CI/CD pipeline, intro to IaC |
-| [Intermediate](learning-paths/intermediate.md) | Working with infra | Kubernetes, Terraform modules, monitoring stacks |
-| [Advanced](learning-paths/advanced.md) | Platform engineers | Multi-cloud, service mesh, GitOps, chaos engineering |
-
----
-
-## Hooks
-
-The hooks directory contains automation scripts for Claude Code sessions:
-
-| Hook | Purpose |
-|------|---------|
-| `session-start.sh` | Detects infrastructure context -- IaC tools, cloud providers, container configs |
-| `pre-tool-use.sh` | Validates IaC files, scans for secrets before applies |
-| `post-tool-use.sh` | Checks for drift, verifies compliance, flags issues |
-
-Install by copying to `.claude/hooks/` in your project and making executable.
-
----
+Kubernetes 1.27+, Terraform 1.5+, all three major clouds, OCI, on-prem K8s.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Key principles:
-
-- **Production-grade only** -- No tutorial-grade configs that only work on fresh accounts
-- **No hardcoded secrets** -- Use placeholders, environment variables, or secret managers
-- **Test what you contribute** -- Validate in a real environment
-- **Document the blast radius** -- State the scope of impact for every infrastructure change
-
----
+PRs especially welcome for: more cloud depth per provider, regional pattern variations, real incident case studies, k8s operator examples. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-[MIT](LICENSE) -- Copyright (c) 2025-2026 Hermetic Ormus
-
----
-
-**Build what elevates. Reject what degrades. Share what empowers.**
-
----
-
-## Part of the Libre Open-Source Stack for Claude Code
-
-This repository is part of a growing family of open-source toolkits for Claude Code, each focused on a specific lane:
-
-- [LibreUIUX-Claude-Code](https://github.com/HermeticOrmus/LibreUIUX-Claude-Code) — UI/UX development (152 agents, 70 plugins, 76 commands, 74 skills)
-- [LibreArch-Claude-Code](https://github.com/HermeticOrmus/LibreArch-Claude-Code) — Software architecture and system design
-- [LibreCopy-Claude-Code](https://github.com/HermeticOrmus/LibreCopy-Claude-Code) — Technical writing and documentation engineering
-- [LibreEmbed-Claude-Code](https://github.com/HermeticOrmus/LibreEmbed-Claude-Code) — Embedded systems, firmware, and IoT development
-- [LibreFinTech-Claude-Code](https://github.com/HermeticOrmus/LibreFinTech-Claude-Code) — Financial technology development
-- [LibreGEO-Claude-Code](https://github.com/HermeticOrmus/LibreGEO-Claude-Code) — AI-search optimization (ChatGPT, Perplexity, Gemini, Google AI Overviews)
-- [LibreGameDev-Claude-Code](https://github.com/HermeticOrmus/LibreGameDev-Claude-Code) — Game development across Godot, Unity, Unreal
-- [LibreMLOps-Claude-Code](https://github.com/HermeticOrmus/LibreMLOps-Claude-Code) — ML engineering and AI operations
-- [LibreMobileDev-Claude-Code](https://github.com/HermeticOrmus/LibreMobileDev-Claude-Code) — Mobile app development (Flutter, React Native, native iOS, native Android)
-- [LibreSecOps-Claude-Code](https://github.com/HermeticOrmus/LibreSecOps-Claude-Code) — Security operations
-
-Star the family, not just one — that's how the suite stays coherent.
+MIT.
