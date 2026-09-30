@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1] - 2026-09-30
+
+### Fixed
+
+- `./setup.sh --help` printed the first line of code after the usage text; it now prints only the usage.
+- `./setup.sh --uninstall` reported a failure for every plugin that was never installed; it now skips those and removes only what is installed.
+
 ## [1.0.0] - 2026-09-30
 
 The first release that installs as a Claude Code plugin marketplace. The old `setup.sh` copied plugin folders into `~/.claude/plugins`, which Claude Code does not load as plugins, so for most people this is the first version where the agents, commands, and skills actually show up.
