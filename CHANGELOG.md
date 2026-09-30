@@ -7,6 +7,9 @@
 - A public pantry (`pantry/`) with a cited competitor map, X mine, people mine and pantry queue, and a Menu (`pantry/MENU.md`) generated from the queue that names one up-next item with a Done-when anyone can check.
 - Two issue forms: routing miss, for when Claude picks the wrong agent, command or skill, and plugin proposal.
 - A Ways to contribute section in CONTRIBUTING.md with the local test loop, and a Contribute section in the README.
+- Grok Build support: `.grok-plugin/marketplace.json`, generated from the Claude Code manifest by `scripts/sync-grok-manifest.py`, so `grok plugin marketplace add HermeticOrmus/LibreDevOps-Claude-Code` lists all 26 plugins. CI fails when the file drifts, validates every plugin with `grok plugin validate`, and installs them all into a clean Grok home. README and QUICK_START show the Grok Build install.
+- `setup.sh --grok` installs through the Grok Build CLI instead of Claude Code, with the same `--only`, `--list`, and `--uninstall`.
+- `LEDGER.md`, the kintsugi ledger: every crack the 1.0 releases found and sealed, with evidence, and the cracks still open.
 
 ## [1.0.1] - 2026-09-30
 
