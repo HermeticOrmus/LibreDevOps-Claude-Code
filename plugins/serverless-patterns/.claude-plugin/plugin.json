@@ -1,0 +1,21 @@
+{
+  "name": "serverless-patterns",
+  "version": "1.0.0",
+  "description": "Build event-driven AWS serverless applications with Lambda, API Gateway, Step Functions, EventBridge, SQS and SNS, and DynamoDB, including cold start tuning.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "serverless",
+    "aws-lambda",
+    "api-gateway",
+    "step-functions",
+    "eventbridge",
+    "sqs",
+    "dynamodb"
+  ]
+}

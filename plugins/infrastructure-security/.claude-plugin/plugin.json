@@ -1,0 +1,22 @@
+{
+  "name": "infrastructure-security",
+  "version": "1.0.0",
+  "description": "Harden cloud infrastructure with CIS Benchmarks, Checkov IaC scanning, HashiCorp Vault, least-privilege security groups, GuardDuty, and CloudTrail analysis.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "infrastructure-security",
+    "cis-benchmarks",
+    "checkov",
+    "vault",
+    "guardduty",
+    "cloudtrail",
+    "security-groups",
+    "iac-scanning"
+  ]
+}

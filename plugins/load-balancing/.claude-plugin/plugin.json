@@ -1,0 +1,22 @@
+{
+  "name": "load-balancing",
+  "version": "1.0.0",
+  "description": "Configure and tune NGINX, HAProxy, AWS ALB/NLB, and Kubernetes ingress for TLS termination, rate limiting, health checks, and canary traffic splits.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "load-balancing",
+    "nginx",
+    "haproxy",
+    "alb",
+    "nlb",
+    "ingress",
+    "tls",
+    "rate-limiting"
+  ]
+}

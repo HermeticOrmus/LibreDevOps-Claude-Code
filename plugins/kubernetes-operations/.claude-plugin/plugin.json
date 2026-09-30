@@ -1,0 +1,22 @@
+{
+  "name": "kubernetes-operations",
+  "version": "1.0.0",
+  "description": "Design, deploy, and troubleshoot production Kubernetes workloads, from resources, probes, RBAC, and NetworkPolicies to autoscaling, Helm, and common pod failures.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "kubernetes",
+    "k8s",
+    "helm",
+    "rbac",
+    "networkpolicy",
+    "hpa",
+    "keda",
+    "troubleshooting"
+  ]
+}

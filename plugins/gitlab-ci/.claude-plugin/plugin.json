@@ -1,0 +1,21 @@
+{
+  "name": "gitlab-ci",
+  "version": "1.0.0",
+  "description": "Build GitLab CI/CD pipelines with rules, DAG needs, merge request pipelines, environments, shared templates, and SAST and DAST scanning.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "gitlab-ci",
+    "ci-cd",
+    "pipelines",
+    "dag",
+    "merge-request-pipelines",
+    "sast",
+    "dast"
+  ]
+}

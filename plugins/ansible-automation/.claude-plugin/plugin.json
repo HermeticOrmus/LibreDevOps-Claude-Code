@@ -1,0 +1,21 @@
+{
+  "name": "ansible-automation",
+  "version": "1.0.0",
+  "description": "Write, review, and test idempotent Ansible playbooks and roles, covering inventories, variable precedence, Ansible Vault, and Molecule.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "ansible",
+    "playbooks",
+    "roles",
+    "ansible-vault",
+    "molecule",
+    "configuration-management",
+    "automation"
+  ]
+}

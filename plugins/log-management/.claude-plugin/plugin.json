@@ -1,0 +1,21 @@
+{
+  "name": "log-management",
+  "version": "1.0.0",
+  "description": "Build log pipelines with structured logging, Fluent Bit, Vector, Loki, and OpenSearch, plus retention policies and log-based alerting.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "logging",
+    "fluent-bit",
+    "vector",
+    "loki",
+    "opensearch",
+    "elasticsearch",
+    "logql"
+  ]
+}

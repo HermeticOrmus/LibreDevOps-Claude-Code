@@ -1,0 +1,20 @@
+{
+  "name": "jenkins-pipelines",
+  "version": "1.0.0",
+  "description": "Write maintainable Jenkins pipelines with declarative Jenkinsfiles, shared libraries, Kubernetes agents, JCasC, and pipeline unit tests.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "jenkins",
+    "jenkinsfile",
+    "shared-libraries",
+    "jcasc",
+    "ci-cd",
+    "kubernetes-agents"
+  ]
+}

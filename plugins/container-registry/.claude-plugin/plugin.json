@@ -1,0 +1,22 @@
+{
+  "name": "container-registry",
+  "version": "1.0.0",
+  "description": "Run a secure container image supply chain on ECR, GHCR, or Harbor with Trivy scanning, Cosign signing, multi-arch builds, SBOMs, and lifecycle policies.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "container-registry",
+    "ecr",
+    "ghcr",
+    "harbor",
+    "trivy",
+    "cosign",
+    "sbom",
+    "supply-chain"
+  ]
+}

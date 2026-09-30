@@ -1,0 +1,22 @@
+{
+  "name": "azure-infrastructure",
+  "version": "1.0.0",
+  "description": "Build Azure infrastructure with Bicep, AKS, Key Vault, Azure DevOps pipelines, and Azure Policy landing zone governance.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "azure",
+    "bicep",
+    "arm-templates",
+    "aks",
+    "key-vault",
+    "azure-devops",
+    "azure-policy",
+    "landing-zone"
+  ]
+}

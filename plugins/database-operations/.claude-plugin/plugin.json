@@ -1,0 +1,22 @@
+{
+  "name": "database-operations",
+  "version": "1.0.0",
+  "description": "Operate and tune PostgreSQL in production with EXPLAIN ANALYZE, indexing, autovacuum, pgBouncer, streaming replication, and safe migrations.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "postgresql",
+    "database",
+    "explain-analyze",
+    "indexing",
+    "vacuum",
+    "pgbouncer",
+    "replication",
+    "migrations"
+  ]
+}
