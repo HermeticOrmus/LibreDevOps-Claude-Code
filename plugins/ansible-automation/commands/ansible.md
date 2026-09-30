@@ -1,3 +1,8 @@
+---
+description: "Generate Ansible playbooks, scaffold roles, manage Vault-encrypted secrets, and run Molecule tests"
+argument-hint: "playbook|role|vault|test [options]"
+---
+
 # /ansible
 
 Generate playbooks, scaffold roles, manage Vault secrets, and run Molecule tests for Ansible automation.

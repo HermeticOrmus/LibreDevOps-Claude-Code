@@ -1,3 +1,8 @@
+---
+description: "Provision GCP infrastructure with Terraform, deploy to Cloud Run and GKE, configure Workload Identity, and secure with Cloud Armor"
+argument-hint: "provision|run|identity|secure [options]"
+---
+
 # /gcp
 
 Provision GCP infrastructure with Terraform, deploy to Cloud Run and GKE, configure workload identity, and secure with Cloud Armor.

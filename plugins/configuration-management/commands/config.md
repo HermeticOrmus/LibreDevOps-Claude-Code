@@ -1,3 +1,8 @@
+---
+description: "Read, write, validate, and roll out configuration and feature flags across environments"
+argument-hint: "read|write|validate|rollout [options]"
+---
+
 # /config
 
 Read, write, validate, and roll out configuration and feature flags across environments.

@@ -1,3 +1,8 @@
+---
+description: "Plan and apply Terraform safely, manage state and drift, and author modules"
+argument-hint: "plan|apply|state|module [options]"
+---
+
 # /terraform
 
 Plan, apply, and manage Terraform infrastructure with proper state management, drift detection, and CI/CD integration.

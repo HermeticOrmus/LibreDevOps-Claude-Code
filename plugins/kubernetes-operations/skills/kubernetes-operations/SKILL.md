@@ -1,3 +1,8 @@
+---
+name: kubernetes-operations
+description: "Kubernetes operating guidance: resource sizing, probe semantics, affinity, RBAC and NetworkPolicy patterns, autoscaling options, and a catalog of failure modes (Pending pods, OOMKilled, slow rollouts, ImagePullBackOff, CrashLoopBackOff). Use when sizing workloads or diagnosing why a pod will not schedule, start, or stay up."
+---
+
 # Kubernetes operations pattern library
 
 ## Resource sizing

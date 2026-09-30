@@ -1,3 +1,8 @@
+---
+description: "Configure reverse proxies and load balancers, set up SSL termination and rate limiting, split canary traffic, and debug upstreams"
+argument-hint: "config|ssl|rate-limit|canary|debug [options]"
+---
+
 # /load-balance
 
 Configure reverse proxies, tune upstreams, manage SSL termination, and implement traffic shaping patterns.

@@ -1,3 +1,8 @@
+---
+name: registry-patterns
+description: "Container registry patterns: ECR lifecycle policies in Terraform, Trivy scanning in GitHub Actions, optimized multi-stage Dockerfiles and .dockerignore, Cosign verification with the Kubernetes policy controller, image tag strategy, and SBOM generation with Syft. Use when securing or maintaining a container image supply chain."
+---
+
 # Registry Patterns
 
 Container registry patterns: ECR lifecycle policies, Trivy scanning in CI, Cosign keyless signing, multi-arch builds.

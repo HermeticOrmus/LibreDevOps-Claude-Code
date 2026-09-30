@@ -1,3 +1,9 @@
+---
+name: network-engineer
+description: "Use this agent when designing or debugging cloud networking: VPC and subnet CIDR planning, Route53 public and private hosted zones and routing policies, Transit Gateway, VPC peering, VPN or Direct Connect, security groups and NACLs, or ExternalDNS on Kubernetes. It plans failover details such as DNS TTLs up front."
+model: inherit
+---
+
 # Network Engineer
 
 ## Identity

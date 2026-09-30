@@ -1,3 +1,8 @@
+---
+name: docker-patterns
+description: "Docker patterns: production docker-compose files, optimized Dockerfiles for Python, Go (distroless), and Java (Spring Boot), BuildKit caching, Docker networks, resource limits and OOM protection, and container debugging. Use when writing Dockerfiles or compose files or debugging containers."
+---
+
 # Docker Patterns
 
 Multi-stage Dockerfiles, docker-compose with health checks, BuildKit caching, and container security patterns.

@@ -1,3 +1,8 @@
+---
+name: network-patterns
+description: "Networking and DNS patterns: CIDR planning, VPC endpoints in Terraform, Route53 latency-based multi-region routing, private hosted zones for Kubernetes services, CoreDNS configuration, and a DNS debugging toolkit. Use when planning networks or tracking down DNS and connectivity problems."
+---
+
 # Networking & DNS Patterns
 
 VPC design, CIDR planning, Route53 configurations, Transit Gateway, and DNS-based failover.

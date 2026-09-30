@@ -1,3 +1,8 @@
+---
+description: "Provision AWS infrastructure with CDK, audit its security posture, or find cost savings"
+argument-hint: "provision|secure|cost|audit [options]"
+---
+
 # /aws
 
 Design and provision AWS infrastructure using CDK, audit security posture, and optimize costs.

@@ -1,3 +1,8 @@
+---
+name: k8s-patterns
+description: "Kubernetes YAML patterns: a production Deployment with full safety controls, Helm values and templates, KEDA scaling on SQS queue depth, namespace ResourceQuota and LimitRange, and a cluster upgrade checklist. Use when writing manifests or Helm charts, or planning a cluster upgrade."
+---
+
 # Kubernetes Patterns
 
 Deployment strategies, Helm chart structure, HPA, PDB, NetworkPolicy, kubectl debugging, and cluster upgrades.

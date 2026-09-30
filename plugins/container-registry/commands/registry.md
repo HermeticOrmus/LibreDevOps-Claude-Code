@@ -1,3 +1,8 @@
+---
+description: "Push images to ECR or GHCR, scan them for vulnerabilities, sign them with Cosign, and clean up with lifecycle policies"
+argument-hint: "push|scan|sign|clean [options]"
+---
+
 # /registry
 
 Push images to ECR/GHCR, scan for vulnerabilities, sign with Cosign, and manage lifecycle policies.

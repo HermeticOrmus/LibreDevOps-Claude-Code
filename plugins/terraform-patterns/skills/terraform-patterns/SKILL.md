@@ -1,3 +1,8 @@
+---
+name: terraform-patterns
+description: "Terraform patterns: a complete RDS PostgreSQL module, Terraform CI/CD with GitHub Actions, detecting and fixing state drift, and Terragrunt run-all. Use when authoring modules or running Terraform in CI."
+---
+
 # Terraform Patterns
 
 Module structure, remote state, for_each patterns, Terragrunt DRY configs, and CI/CD for infrastructure.

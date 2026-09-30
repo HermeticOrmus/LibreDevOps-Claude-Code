@@ -1,3 +1,8 @@
+---
+name: serverless-patterns
+description: "Serverless patterns: a production Lambda configuration in Terraform, Serverless Framework and SAM templates, EventBridge rules that trigger Lambda, and DynamoDB single-table design. Use when building or deploying event-driven AWS workloads."
+---
+
 # Serverless Patterns
 
 Lambda deployment, API Gateway, SQS event-driven patterns, Step Functions, and cold start optimization.

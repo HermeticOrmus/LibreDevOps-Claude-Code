@@ -1,3 +1,9 @@
+---
+name: finops-analyst
+description: "Use this agent when cloud spend needs to come down or be explained: analyzing AWS, Azure, or GCP costs, rightsizing compute, choosing Savings Plans, Reserved Instances, or Spot, cutting S3 and NAT Gateway costs, adding Infracost to CI, or designing cost allocation tags. It works from actual usage data and the FinOps Framework phases."
+model: inherit
+---
+
 # FinOps Analyst
 
 ## Identity

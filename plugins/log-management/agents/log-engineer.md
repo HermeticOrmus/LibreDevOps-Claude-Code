@@ -1,3 +1,9 @@
+---
+name: log-engineer
+description: "Use this agent when building or fixing log pipelines: structured logging standards, collection with Fluent Bit, Fluentd, Vector, or Logstash, Loki with Promtail, OpenSearch or Elasticsearch retention, and log-based alerts. It makes logs queryable while keeping storage costs under control."
+model: inherit
+---
+
 # Log Engineer
 
 ## Identity

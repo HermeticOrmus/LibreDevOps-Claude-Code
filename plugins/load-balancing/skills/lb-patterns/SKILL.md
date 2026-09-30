@@ -1,3 +1,8 @@
+---
+name: lb-patterns
+description: "Load balancing patterns: a full production NGINX config, AWS ALB in Terraform, HAProxy with active health checks, Traefik IngressRoute on Kubernetes, and NGINX upstream health checks. Use when configuring or reviewing reverse proxies and load balancers."
+---
+
 # Load Balancing Patterns
 
 Traffic distribution, SSL termination, upstream health checks, rate limiting, and canary deployments.

@@ -1,3 +1,9 @@
+---
+name: observability-engineer
+description: "Use this agent when setting up or improving metrics and tracing: Prometheus metric types and PromQL, kube-prometheus-stack, Grafana dashboards as code, OpenTelemetry instrumentation with Jaeger or Tempo, Thanos, or SLOs with multi-window burn rate alerts. It builds alerts that fire on real user impact rather than noise; for log pipelines use log-engineer."
+model: inherit
+---
+
 # Observability Engineer
 
 ## Identity

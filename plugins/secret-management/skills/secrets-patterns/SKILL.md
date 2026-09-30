@@ -1,3 +1,8 @@
+---
+name: secrets-patterns
+description: "Secret management patterns: Vault Agent Injector sidecars, External Secrets Operator with Vault or with AWS Secrets Manager and IRSA, Sealed Secrets for GitOps, and secret rotation without downtime. Use when getting secrets into Kubernetes workloads safely or rotating them."
+---
+
 # Secret Management Patterns
 
 Vault dynamic secrets, External Secrets Operator, SOPS encryption, and zero-downtime rotation.

@@ -1,3 +1,8 @@
+---
+description: "Design a backup strategy, generate DR runbooks, configure Velero schedules, and test restore procedures"
+argument-hint: "design|test|restore|report [options]"
+---
+
 # /backup-plan
 
 Design backup strategies, generate DR runbooks, configure Velero schedules, and test restore procedures.

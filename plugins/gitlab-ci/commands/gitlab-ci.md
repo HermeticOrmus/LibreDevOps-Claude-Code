@@ -1,3 +1,8 @@
+---
+description: "Design GitLab CI pipelines, add shared templates and security scanning, and configure environment deployments"
+argument-hint: "design|template|secure|deploy [options]"
+---
+
 # /gitlab-ci
 
 Design GitLab CI pipelines, add security scanning, configure environments, and debug failing jobs.

@@ -1,3 +1,8 @@
+---
+description: "Run database migrations, analyze slow queries, manage backups, and monitor PostgreSQL replication"
+argument-hint: "migrate|optimize|backup|monitor [options]"
+---
+
 # /db-ops
 
 Run database migrations, analyze slow queries, configure pgBouncer, and monitor replication.

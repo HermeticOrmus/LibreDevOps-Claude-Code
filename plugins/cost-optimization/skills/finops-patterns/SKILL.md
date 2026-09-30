@@ -1,3 +1,8 @@
+---
+name: finops-patterns
+description: "Cloud cost patterns: AWS cost analysis queries, Savings Plans coverage, Spot Auto Scaling groups, gp2 to gp3 migration, S3 lifecycle and Intelligent-Tiering, VPC endpoints in place of NAT Gateway traffic, Infracost in pull requests, and tagging enforcement with SCPs. Use when finding or preventing cloud waste."
+---
+
 # FinOps Patterns
 
 Cloud cost optimization patterns: Savings Plans, Spot handling, Infracost CI, S3 lifecycle, tagging enforcement.

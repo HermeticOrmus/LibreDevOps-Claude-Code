@@ -1,3 +1,8 @@
+---
+description: "Scan infrastructure as code for misconfigurations, remediate findings, audit IAM, and harden infrastructure"
+argument-hint: "scan|remediate|audit|harden [options]"
+---
+
 # /infrasec
 
 Scan IaC for misconfigurations, remediate security findings, audit IAM, and harden infrastructure.

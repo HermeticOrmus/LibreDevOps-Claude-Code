@@ -1,3 +1,8 @@
+---
+name: infrasec-patterns
+description: "Infrastructure security patterns: Checkov in CI with SARIF output, Vault Agent injection on Kubernetes, Vault PKI for short-lived TLS certificates, an AWS security baseline in Terraform, and network hardening. Use when adding IaC security scanning or hardening cloud and Kubernetes infrastructure."
+---
+
 # InfraSec Patterns
 
 Checkov GitHub Actions, Vault dynamic secrets, Security Group rules, GuardDuty remediation, CloudTrail analysis.

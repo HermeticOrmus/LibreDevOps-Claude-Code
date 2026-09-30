@@ -1,3 +1,8 @@
+---
+description: "Write PromQL queries, manage alerts, build dashboards, define SLOs, and debug observability pipelines"
+argument-hint: "query|alerts|dashboard|slo|debug [options]"
+---
+
 # /monitor
 
 Query metrics, manage alerts, inspect dashboards, and debug observability pipelines.

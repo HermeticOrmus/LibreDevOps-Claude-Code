@@ -1,3 +1,8 @@
+---
+description: "Design VPCs, manage DNS records, tighten network security rules, and debug connectivity"
+argument-hint: "vpc|dns|security|debug [options]"
+---
+
 # /network
 
 Design VPCs, manage DNS records, configure routing policies, and debug network connectivity.

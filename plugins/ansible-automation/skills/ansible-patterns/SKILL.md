@@ -1,3 +1,8 @@
+---
+name: ansible-patterns
+description: "Ansible reference patterns: playbook and role layout, Jinja2 templates, Vault usage, idempotency and handlers, dynamic AWS EC2 inventory, block/rescue error handling, Molecule tests, ansible.cfg settings, and anti-patterns. Use when writing or reviewing Ansible code."
+---
+
 # Ansible Patterns
 
 Production-tested Ansible patterns with real YAML, Jinja2, and configuration examples.

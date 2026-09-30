@@ -1,3 +1,8 @@
+---
+description: "Read, write, rotate, and audit secrets in Vault, AWS Secrets Manager, and Kubernetes"
+argument-hint: "read|write|rotate|audit [options]"
+---
+
 # /secrets
 
 Manage secrets in Vault, AWS Secrets Manager, and Kubernetes using ESO and Sealed Secrets.

@@ -1,3 +1,8 @@
+---
+description: "Analyze cloud spend, rightsize resources, recommend reserved capacity, and generate cost reports"
+argument-hint: "analyze|rightsize|reserve|report [options]"
+---
+
 # /cost-optimize
 
 Analyze cloud spend, identify waste, recommend reserved capacity, and generate cost reports.

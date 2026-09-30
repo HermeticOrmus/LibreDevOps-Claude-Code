@@ -1,3 +1,8 @@
+---
+description: "Declare an incident, manage the response, write a blameless postmortem, or configure SLO burn rate alerts"
+argument-hint: "declare|manage|postmortem|alert [options]"
+---
+
 # /incident
 
 Declare incidents, manage response, write postmortems, and configure SLO burn rate alerts.

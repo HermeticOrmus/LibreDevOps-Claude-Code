@@ -1,3 +1,8 @@
+---
+description: "Install Istio or Linkerd, configure traffic routing and mTLS policies, and debug service-to-service connectivity"
+argument-hint: "install|traffic|security|debug [options]"
+---
+
 # /service-mesh
 
 Configure Istio/Linkerd policies, debug service connectivity, and manage traffic routing at the mesh level.

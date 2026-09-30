@@ -1,3 +1,8 @@
+---
+description: "Create GitHub Actions workflows and reusable workflows, harden them with OIDC and pinned actions, and debug failing runs"
+argument-hint: "create|reuse|secure|debug [options]"
+---
+
 # /gha
 
 Create GitHub Actions workflows, reusable workflows, composite actions, and OIDC cloud auth.
