@@ -127,7 +127,7 @@ Grok Build reads the same plugin folders. Add the marketplace, then install any 
 
 ```bash
 grok plugin marketplace add HermeticOrmus/LibreDevOps-Claude-Code
-grok plugin install kubernetes-operations@libre-devops --trust
+grok plugin install kubernetes-operations@LibreDevOps-Claude-Code --trust
 ```
 
 Or install one plugin straight from its folder, without adding the marketplace:
