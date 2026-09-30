@@ -4,6 +4,15 @@ Ten minutes from clone to your first proper k8s deployment.
 
 ## Install
 
+Inside Claude Code:
+
+```
+/plugin marketplace add HermeticOrmus/LibreDevOps-Claude-Code
+/plugin install kubernetes-operations@libre-devops
+```
+
+Or clone and install every plugin through the Claude Code CLI:
+
 ```bash
 git clone https://github.com/HermeticOrmus/LibreDevOps-Claude-Code.git ~/projects/LibreDevOps-Claude-Code
 cd ~/projects/LibreDevOps-Claude-Code
