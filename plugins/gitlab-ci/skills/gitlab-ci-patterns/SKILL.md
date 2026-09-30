@@ -1,3 +1,8 @@
+---
+name: gitlab-ci-patterns
+description: "GitLab CI patterns: a complete .gitlab-ci.yml for a Node.js app, shared templates, merge request pipeline configuration, dynamic child pipelines, and a CI variables reference. Use when writing or restructuring GitLab pipelines."
+---
+
 # GitLab CI Patterns
 
 DAG pipelines, merge request pipelines, security scanning, environment deployments, and shared templates.

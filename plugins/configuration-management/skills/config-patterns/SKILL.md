@@ -1,3 +1,8 @@
+---
+name: config-patterns
+description: "Configuration patterns: SSM Parameter Store hierarchy and IAM access, Kubernetes ConfigMaps and Secrets, Unleash feature flags and rollout sequence, config schema validation, and Consul Template for dynamic config. Use when structuring application config or rolling out feature flags."
+---
+
 # Config Patterns
 
 Configuration management patterns with SSM Parameter Store, Consul, feature flags, and schema validation.

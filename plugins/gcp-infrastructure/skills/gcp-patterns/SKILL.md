@@ -1,3 +1,8 @@
+---
+name: gcp-patterns
+description: "Google Cloud patterns: full GKE Workload Identity setup, Cloud Run with VPC access and secrets, keyless GitHub Actions OIDC to GCP, VPC and subnet design, and Cloud SQL Proxy for local development. Use when provisioning or connecting workloads on Google Cloud."
+---
+
 # GCP Patterns
 
 GKE Workload Identity, Cloud Run deployment, Cloud SQL private IP, Terraform Google provider, and Cloud Armor patterns.

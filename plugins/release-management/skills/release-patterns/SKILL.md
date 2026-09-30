@@ -1,3 +1,8 @@
+---
+name: release-patterns
+description: "Release patterns: ArgoCD ApplicationSets across clusters, semantic-release with image builds in GitHub Actions, blue/green on ECS with an ALB, .releaserc configuration, and a rollback runbook. Use when automating releases or preparing a rollback."
+---
+
 # Release Management Patterns
 
 GitOps with ArgoCD, Argo Rollouts, semantic versioning, Helm OCI, and blue/green deployments.

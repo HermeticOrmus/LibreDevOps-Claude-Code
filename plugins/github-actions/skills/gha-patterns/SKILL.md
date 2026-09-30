@@ -1,3 +1,8 @@
+---
+name: gha-patterns
+description: "GitHub Actions patterns: a complete container CI/CD pipeline, reusable workflows with OIDC, dependency caching, an expressions and contexts cheatsheet, self-hosted runners on Kubernetes with Actions Runner Controller, and workflow debugging techniques. Use when writing or debugging GitHub Actions workflows."
+---
+
 # GitHub Actions Patterns
 
 Real workflow patterns: reusable workflows, OIDC auth, matrix builds, artifact caching, and security hardening.

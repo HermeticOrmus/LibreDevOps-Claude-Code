@@ -1,3 +1,8 @@
+---
+description: "Deploy Lambda functions, invoke them, read their logs, and debug serverless applications"
+argument-hint: "deploy|invoke|logs|debug [options]"
+---
+
 # /serverless
 
 Deploy Lambda functions, manage API Gateway, monitor invocations, and debug serverless applications.

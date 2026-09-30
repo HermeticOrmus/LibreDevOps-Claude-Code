@@ -1,3 +1,8 @@
+---
+name: db-ops-patterns
+description: "Database operations patterns: reading EXPLAIN ANALYZE, connection pool sizing, autovacuum tuning for high-write tables, PostgreSQL replication setup and monitoring, Flyway migrations, Redis patterns, and pg_stat_statements queries. Use when tuning or operating PostgreSQL or Redis in production."
+---
+
 # DB Ops Patterns
 
 PostgreSQL query optimization, indexing, VACUUM tuning, pgBouncer, replication, and migration patterns.

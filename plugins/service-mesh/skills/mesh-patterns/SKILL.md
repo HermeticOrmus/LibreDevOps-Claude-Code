@@ -1,3 +1,8 @@
+---
+name: mesh-patterns
+description: "Service mesh patterns: Istio install and namespace setup, the Istio ingress gateway, Linkerd observability, Kiali, traffic mirroring, and JWT authentication at the mesh level. Use when rolling out or extending Istio or Linkerd."
+---
+
 # Service Mesh Patterns
 
 Istio mTLS, traffic routing, circuit breaking, Linkerd ServiceProfiles, and Envoy debugging.

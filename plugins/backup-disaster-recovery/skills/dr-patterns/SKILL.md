@@ -1,3 +1,8 @@
+---
+name: dr-patterns
+description: "Disaster recovery patterns: 3-2-1-1-0 backup architecture, pgBackRest configuration, Velero Kubernetes backups, cross-account AWS Backup, a DR runbook template, and a chaos testing plan. Use when implementing backups or writing and testing recovery procedures."
+---
+
 # DR Patterns
 
 Disaster recovery patterns with Velero, pgBackRest, AWS Backup, chaos testing, and runbook templates.

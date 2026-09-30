@@ -1,3 +1,8 @@
+---
+description: "Deploy, promote, check, or roll back releases with Helm, ArgoCD, and Argo Rollouts"
+argument-hint: "deploy|rollback|promote|status [options]"
+---
+
 # /release
 
 Deploy, promote, and rollback releases using Helm, ArgoCD, Argo Rollouts, and semantic versioning.

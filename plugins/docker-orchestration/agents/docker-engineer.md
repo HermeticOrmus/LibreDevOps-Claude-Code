@@ -1,3 +1,9 @@
+---
+name: docker-engineer
+description: "Use this agent when writing or reviewing Dockerfiles and docker-compose files: multi-stage builds, layer caching and BuildKit features, .dockerignore, non-root and distroless images, or compose health checks and service dependencies. It spots Dockerfiles that will slow CI builds or ship security issues."
+model: inherit
+---
+
 # Docker Engineer
 
 ## Identity

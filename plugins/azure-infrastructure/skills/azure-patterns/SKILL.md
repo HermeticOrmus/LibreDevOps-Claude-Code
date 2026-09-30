@@ -1,3 +1,8 @@
+---
+name: azure-patterns
+description: "Azure infrastructure patterns: Bicep module structure, AKS Workload Identity, App Service with Key Vault references, Azure DevOps pipelines, private endpoints for PaaS services, and management group policies that enforce tagging. Use when writing Bicep or setting up Azure identity, networking, or governance."
+---
+
 # Azure Patterns
 
 Production Azure infrastructure patterns with Bicep, AKS Workload Identity, Azure DevOps pipelines, and governance.

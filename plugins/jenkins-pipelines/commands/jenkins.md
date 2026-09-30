@@ -1,3 +1,8 @@
+---
+description: "Create Jenkinsfiles, build shared libraries, test pipelines, and configure Jenkins with JCasC"
+argument-hint: "create|shared-lib|test|configure [options]"
+---
+
 # /jenkins
 
 Create Jenkinsfiles, configure shared libraries, set up Kubernetes dynamic agents, and manage JCasC.

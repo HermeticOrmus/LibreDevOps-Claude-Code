@@ -1,3 +1,8 @@
+---
+description: "Provision Azure infrastructure with Bicep, configure identity, design Azure DevOps pipelines, and enforce governance with Azure Policy"
+argument-hint: "provision|identity|pipeline|govern [options]"
+---
+
 # /azure
 
 Provision Azure infrastructure with Bicep, configure identity, design pipelines, and enforce governance.

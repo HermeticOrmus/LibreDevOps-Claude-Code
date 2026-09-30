@@ -1,3 +1,8 @@
+---
+description: "Build optimized images, manage docker-compose environments, scan images for vulnerabilities, and slim down Dockerfiles"
+argument-hint: "build|compose|scan|optimize [options]"
+---
+
 # /docker
 
 Build optimized images, manage docker-compose environments, scan for vulnerabilities, and debug containers.

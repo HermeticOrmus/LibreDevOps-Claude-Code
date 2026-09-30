@@ -1,3 +1,8 @@
+---
+name: aws-patterns
+description: "Production AWS patterns in CDK TypeScript, IAM JSON, and CloudFormation: three-tier VPC, ECS Fargate behind an ALB, CloudFront and S3 SPA hosting, Aurora PostgreSQL, IAM permission boundaries, AWS Config drift rules, multi-region CloudTrail, and tagging with CDK Aspects. Use when building or reviewing AWS infrastructure code."
+---
+
 # AWS Patterns
 
 Production AWS architecture patterns with CDK TypeScript, IAM JSON, and CloudFormation YAML examples.

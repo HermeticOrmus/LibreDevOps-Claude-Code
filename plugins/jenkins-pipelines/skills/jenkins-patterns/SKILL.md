@@ -1,3 +1,8 @@
+---
+name: jenkins-patterns
+description: "Jenkins patterns: a complete multi-stage declarative pipeline with Kubernetes agents and parallel stages, a shared library step for Kubernetes deploys, error handling blocks, and JCasC configuration. Use when writing Jenkinsfiles or shared libraries."
+---
+
 # Jenkins Patterns
 
 Declarative pipeline patterns, shared library structure, JCasC, Kubernetes agents, parallel stages, and error handling.

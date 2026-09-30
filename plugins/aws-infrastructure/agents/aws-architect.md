@@ -1,3 +1,9 @@
+---
+name: aws-architect
+description: "Use this agent when designing or reviewing AWS infrastructure in CDK (TypeScript) or CloudFormation: VPC layout, IAM least privilege, ECS Fargate services, CloudFront with S3, RDS, or security groups. It applies the Well-Architected Framework and explains the cost, security, and operational tradeoffs of each service choice."
+model: inherit
+---
+
 # AWS Architect
 
 ## Identity

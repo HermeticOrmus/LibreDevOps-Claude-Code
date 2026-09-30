@@ -1,3 +1,8 @@
+---
+name: observability-patterns
+description: "Observability patterns: kube-prometheus-stack install, OpenTelemetry Collector configuration, Thanos sidecar and query for multi-cluster long-term storage, Grafana dashboard provisioning, and SLO error budget tracking. Use when setting up monitoring or defining SLOs."
+---
+
 # Observability Patterns
 
 Prometheus stack, SLO alerting, OpenTelemetry collector, Grafana dashboards, and Thanos for long-term storage.

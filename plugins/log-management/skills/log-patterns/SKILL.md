@@ -1,3 +1,8 @@
+---
+name: log-patterns
+description: "Log management patterns: a Fluent Bit DaemonSet for Kubernetes, the Loki stack with Helm, LogQL queries, OpenSearch index templates, Grafana alerts from Loki logs, and log sampling with Vector. Use when building log collection, retention, or log-based alerting."
+---
+
 # Log Management Patterns
 
 Structured log formats, collection pipelines, retention policies, and log-based alerting.

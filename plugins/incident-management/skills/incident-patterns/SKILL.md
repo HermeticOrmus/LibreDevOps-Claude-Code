@@ -1,3 +1,8 @@
+---
+name: incident-patterns
+description: "Incident management patterns: a severity and response matrix, PagerDuty schedules and escalation, multi-window SLO burn rate alerts, a postmortem template, and incident channel communication. Use when setting up on-call and alerting, or when running an incident and its postmortem."
+---
+
 # Incident Patterns
 
 Severity matrix, SLO burn rate alerts, postmortem template, on-call setup, and runbook structure.
