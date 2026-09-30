@@ -121,6 +121,23 @@ Install any other plugin the same way with `<plugin>@libre-devops`, using the na
 
 Optional hooks: `/plugin install libre-devops-hooks@libre-devops` adds project context at session start, asks before edits to secret and Terraform state files, and checks infrastructure files after each edit (needs `jq`).
 
+### Install in Grok Build
+
+Grok Build reads the same plugin folders. Add the marketplace, then install any plugin by name:
+
+```bash
+grok plugin marketplace add HermeticOrmus/LibreDevOps-Claude-Code
+grok plugin install kubernetes-operations@libre-devops --trust
+```
+
+Or install one plugin straight from its folder, without adding the marketplace:
+
+```bash
+grok plugin install HermeticOrmus/LibreDevOps-Claude-Code#plugins/kubernetes-operations --trust
+```
+
+`--trust` confirms you trust the source; without it Grok shows what the plugin would activate and stops. Start a new Grok session to load what you installed. From a clone, `./setup.sh --grok` installs the whole pack through the `grok` CLI. The `libre-devops-hooks` plugin uses a hook format Grok supports, but it has not been verified in a live Grok session (see the [ledger](LEDGER.md)).
+
 ### Install from a clone
 
 ```bash
@@ -129,7 +146,7 @@ cd ~/projects/LibreDevOps-Claude-Code
 ./setup.sh
 ```
 
-`./setup.sh` registers the clone as the `libre-devops` marketplace and installs all 26 plugins, including `libre-devops-hooks`, through the Claude Code CLI. Pick plugins with `./setup.sh --only kubernetes-operations,terraform-patterns` (leave `libre-devops-hooks` out to skip the hooks), see every name with `./setup.sh --list`, and remove the pack with `./setup.sh --uninstall`.
+`./setup.sh` registers the clone as the `libre-devops` marketplace and installs all 26 plugins, including `libre-devops-hooks`, through the Claude Code CLI. Pick plugins with `./setup.sh --only kubernetes-operations,terraform-patterns` (leave `libre-devops-hooks` out to skip the hooks), see every name with `./setup.sh --list`, and remove the pack with `./setup.sh --uninstall`. Add `--grok` to install through Grok Build instead; it works with `--list`, `--only`, and `--uninstall`, and needs `grok` and `jq`.
 
 Then:
 
@@ -153,9 +170,13 @@ Kubernetes 1.27+, Terraform 1.5+, all three major clouds, OCI, on-prem K8s.
 
 Installs as a Claude Code plugin marketplace; tested with Claude Code 2.1.285. The hooks plugin needs `bash` and `jq`.
 
+Also installs as a Grok Build plugin marketplace; tested with grok 1.0.44. The hooks plugin has not been verified in a live Grok session.
+
 ## Feedback
 
 Starred this? Tell us what worked and what is missing: [open a feedback issue](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/issues/new?template=feedback.yml). Every piece of feedback gets an answer, and changes that come from it are credited in the release notes.
+
+Cracks we found and sealed: [LEDGER.md](LEDGER.md).
 
 ## Contribute
 

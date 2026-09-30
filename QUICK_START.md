@@ -21,6 +21,19 @@ cd ~/projects/LibreDevOps-Claude-Code
 
 Restart Claude Code.
 
+### Install in Grok Build
+
+Grok Build reads the same plugin folders. Add the marketplace and install a plugin, or install one plugin straight from its folder:
+
+```bash
+grok plugin marketplace add HermeticOrmus/LibreDevOps-Claude-Code
+grok plugin install kubernetes-operations@libre-devops --trust
+# or, without the marketplace:
+grok plugin install HermeticOrmus/LibreDevOps-Claude-Code#plugins/kubernetes-operations --trust
+```
+
+From a clone, `./setup.sh --grok` installs every plugin through the `grok` CLI. Start a new Grok session to load them. The `libre-devops-hooks` plugin uses a hook format Grok supports, but it has not been verified in a live Grok session.
+
 ## Design a workload
 
 ```
