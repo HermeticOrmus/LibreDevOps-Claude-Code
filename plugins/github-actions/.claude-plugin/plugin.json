@@ -1,0 +1,21 @@
+{
+  "name": "github-actions",
+  "version": "1.0.0",
+  "description": "Build fast, secure GitHub Actions workflows with reusable workflows, composite actions, matrix builds, OIDC cloud authentication, and SHA-pinned actions.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "github-actions",
+    "ci-cd",
+    "workflows",
+    "reusable-workflows",
+    "oidc",
+    "composite-actions",
+    "self-hosted-runners"
+  ]
+}

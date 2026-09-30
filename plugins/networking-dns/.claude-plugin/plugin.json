@@ -1,0 +1,22 @@
+{
+  "name": "networking-dns",
+  "version": "1.0.0",
+  "description": "Design and debug cloud networks and DNS, including VPC and CIDR planning, Route53 routing, Transit Gateway, security groups, CoreDNS, and ExternalDNS.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "networking",
+    "dns",
+    "vpc",
+    "cidr",
+    "route53",
+    "transit-gateway",
+    "coredns",
+    "externaldns"
+  ]
+}

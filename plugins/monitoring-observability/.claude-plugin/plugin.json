@@ -1,0 +1,22 @@
+{
+  "name": "monitoring-observability",
+  "version": "1.0.0",
+  "description": "Set up metrics, tracing, and SLOs with Prometheus, Grafana, Thanos, and OpenTelemetry, including multi-window burn rate alerts.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "monitoring",
+    "observability",
+    "prometheus",
+    "grafana",
+    "promql",
+    "opentelemetry",
+    "slo",
+    "thanos"
+  ]
+}

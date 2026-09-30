@@ -1,0 +1,21 @@
+{
+  "name": "docker-orchestration",
+  "version": "1.0.0",
+  "description": "Write fast, secure Dockerfiles and docker-compose setups with multi-stage builds, BuildKit caching, non-root and distroless images, and health checks.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "docker",
+    "dockerfile",
+    "docker-compose",
+    "buildkit",
+    "multi-stage-builds",
+    "distroless",
+    "containers"
+  ]
+}

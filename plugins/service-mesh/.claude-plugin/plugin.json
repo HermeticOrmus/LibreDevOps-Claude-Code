@@ -1,0 +1,20 @@
+{
+  "name": "service-mesh",
+  "version": "1.0.0",
+  "description": "Adopt and debug Istio or Linkerd service meshes with mTLS, traffic routing, circuit breaking, authorization policies, and Envoy troubleshooting.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "service-mesh",
+    "istio",
+    "linkerd",
+    "envoy",
+    "mtls",
+    "traffic-management"
+  ]
+}

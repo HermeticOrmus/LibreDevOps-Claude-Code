@@ -1,0 +1,22 @@
+{
+  "name": "gcp-infrastructure",
+  "version": "1.0.0",
+  "description": "Design and provision Google Cloud infrastructure with Terraform across GKE, Cloud Run, Cloud SQL, Workload Identity, and Cloud Armor.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "gcp",
+    "google-cloud",
+    "gke",
+    "cloud-run",
+    "cloud-sql",
+    "workload-identity",
+    "cloud-armor",
+    "terraform"
+  ]
+}

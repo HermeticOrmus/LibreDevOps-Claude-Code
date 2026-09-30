@@ -1,0 +1,21 @@
+{
+  "name": "configuration-management",
+  "version": "1.0.0",
+  "description": "Manage runtime configuration and feature flags the 12-factor way with SSM Parameter Store, Consul, etcd, and config schema validation.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "configuration",
+    "12-factor",
+    "ssm-parameter-store",
+    "consul",
+    "etcd",
+    "feature-flags",
+    "unleash"
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "name": "libre-devops",
+  "owner": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "metadata": {
+    "description": "DevOps plugins for Claude Code: infrastructure as code, CI/CD pipelines, containers and Kubernetes, cloud platforms, observability, and operations.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ansible-automation",
+      "source": "./plugins/ansible-automation",
+      "description": "Write, review, and test idempotent Ansible playbooks and roles, covering inventories, variable precedence, Ansible Vault, and Molecule.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "aws-infrastructure",
+      "source": "./plugins/aws-infrastructure",
+      "description": "Design and provision production AWS infrastructure with CDK and CloudFormation, following the Well-Architected Framework for VPCs, IAM, ECS, RDS, and CloudFront.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "azure-infrastructure",
+      "source": "./plugins/azure-infrastructure",
+      "description": "Build Azure infrastructure with Bicep, AKS, Key Vault, Azure DevOps pipelines, and Azure Policy landing zone governance.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "backup-disaster-recovery",
+      "source": "./plugins/backup-disaster-recovery",
+      "description": "Plan backups and disaster recovery with RTO and RPO targets, 3-2-1 backups, pgBackRest, Velero, AWS Backup, and tested DR runbooks.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "configuration-management",
+      "source": "./plugins/configuration-management",
+      "description": "Manage runtime configuration and feature flags the 12-factor way with SSM Parameter Store, Consul, etcd, and config schema validation.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "container-registry",
+      "source": "./plugins/container-registry",
+      "description": "Run a secure container image supply chain on ECR, GHCR, or Harbor with Trivy scanning, Cosign signing, multi-arch builds, SBOMs, and lifecycle policies.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "cost-optimization",
+      "source": "./plugins/cost-optimization",
+      "description": "Cut cloud spend with the FinOps Framework through rightsizing, Savings Plans and Spot, S3 and NAT Gateway savings, Infracost in CI, and cost allocation tags.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "database-operations",
+      "source": "./plugins/database-operations",
+      "description": "Operate and tune PostgreSQL in production with EXPLAIN ANALYZE, indexing, autovacuum, pgBouncer, streaming replication, and safe migrations.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "docker-orchestration",
+      "source": "./plugins/docker-orchestration",
+      "description": "Write fast, secure Dockerfiles and docker-compose setups with multi-stage builds, BuildKit caching, non-root and distroless images, and health checks.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "gcp-infrastructure",
+      "source": "./plugins/gcp-infrastructure",
+      "description": "Design and provision Google Cloud infrastructure with Terraform across GKE, Cloud Run, Cloud SQL, Workload Identity, and Cloud Armor.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "github-actions",
+      "source": "./plugins/github-actions",
+      "description": "Build fast, secure GitHub Actions workflows with reusable workflows, composite actions, matrix builds, OIDC cloud authentication, and SHA-pinned actions.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "gitlab-ci",
+      "source": "./plugins/gitlab-ci",
+      "description": "Build GitLab CI/CD pipelines with rules, DAG needs, merge request pipelines, environments, shared templates, and SAST and DAST scanning.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "incident-management",
+      "source": "./plugins/incident-management",
+      "description": "Run incidents and on-call with severity levels, response roles, status updates, SLO burn rate alerts, runbooks, and blameless postmortems.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "infrastructure-security",
+      "source": "./plugins/infrastructure-security",
+      "description": "Harden cloud infrastructure with CIS Benchmarks, Checkov IaC scanning, HashiCorp Vault, least-privilege security groups, GuardDuty, and CloudTrail analysis.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "jenkins-pipelines",
+      "source": "./plugins/jenkins-pipelines",
+      "description": "Write maintainable Jenkins pipelines with declarative Jenkinsfiles, shared libraries, Kubernetes agents, JCasC, and pipeline unit tests.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "kubernetes-operations",
+      "source": "./plugins/kubernetes-operations",
+      "description": "Design, deploy, and troubleshoot production Kubernetes workloads, from resources, probes, RBAC, and NetworkPolicies to autoscaling, Helm, and common pod failures.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "load-balancing",
+      "source": "./plugins/load-balancing",
+      "description": "Configure and tune NGINX, HAProxy, AWS ALB/NLB, and Kubernetes ingress for TLS termination, rate limiting, health checks, and canary traffic splits.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "log-management",
+      "source": "./plugins/log-management",
+      "description": "Build log pipelines with structured logging, Fluent Bit, Vector, Loki, and OpenSearch, plus retention policies and log-based alerting.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "monitoring-observability",
+      "source": "./plugins/monitoring-observability",
+      "description": "Set up metrics, tracing, and SLOs with Prometheus, Grafana, Thanos, and OpenTelemetry, including multi-window burn rate alerts.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "networking-dns",
+      "source": "./plugins/networking-dns",
+      "description": "Design and debug cloud networks and DNS, including VPC and CIDR planning, Route53 routing, Transit Gateway, security groups, CoreDNS, and ExternalDNS.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "release-management",
+      "source": "./plugins/release-management",
+      "description": "Ship and roll back releases safely with blue/green and canary strategies, ArgoCD GitOps, Argo Rollouts, Helm, and semantic versioning.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "secret-management",
+      "source": "./plugins/secret-management",
+      "description": "Store, deliver, and rotate secrets with HashiCorp Vault, AWS Secrets Manager, External Secrets Operator, Sealed Secrets, and SOPS.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "serverless-patterns",
+      "source": "./plugins/serverless-patterns",
+      "description": "Build event-driven AWS serverless applications with Lambda, API Gateway, Step Functions, EventBridge, SQS and SNS, and DynamoDB, including cold start tuning.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "service-mesh",
+      "source": "./plugins/service-mesh",
+      "description": "Adopt and debug Istio or Linkerd service meshes with mTLS, traffic routing, circuit breaking, authorization policies, and Envoy troubleshooting.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "terraform-patterns",
+      "source": "./plugins/terraform-patterns",
+      "description": "Write and operate modular Terraform and OpenTofu with remote state, for_each patterns, Terragrunt, drift detection, and CI/CD for infrastructure.",
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "backup-disaster-recovery",
+  "version": "1.0.0",
+  "description": "Plan backups and disaster recovery with RTO and RPO targets, 3-2-1 backups, pgBackRest, Velero, AWS Backup, and tested DR runbooks.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "backup",
+    "disaster-recovery",
+    "rto",
+    "rpo",
+    "velero",
+    "pgbackrest",
+    "aws-backup",
+    "runbooks"
+  ]
+}

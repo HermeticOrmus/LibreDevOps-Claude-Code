@@ -1,0 +1,21 @@
+{
+  "name": "incident-management",
+  "version": "1.0.0",
+  "description": "Run incidents and on-call with severity levels, response roles, status updates, SLO burn rate alerts, runbooks, and blameless postmortems.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "incident-management",
+    "on-call",
+    "slo",
+    "burn-rate-alerts",
+    "postmortem",
+    "runbooks",
+    "pagerduty"
+  ]
+}

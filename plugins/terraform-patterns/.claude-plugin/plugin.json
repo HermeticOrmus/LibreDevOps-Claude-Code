@@ -1,0 +1,21 @@
+{
+  "name": "terraform-patterns",
+  "version": "1.0.0",
+  "description": "Write and operate modular Terraform and OpenTofu with remote state, for_each patterns, Terragrunt, drift detection, and CI/CD for infrastructure.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreDevOps-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "terraform",
+    "opentofu",
+    "terragrunt",
+    "infrastructure-as-code",
+    "hcl",
+    "remote-state",
+    "drift-detection"
+  ]
+}
