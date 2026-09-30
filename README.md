@@ -5,7 +5,7 @@
 <h1 align="center">LibreDevOps Claude Code</h1>
 
 <p align="center">
-  <em>DevOps engineering with Claude Code — 25 specialized plugins covering infrastructure, containers, CI/CD, observability, and cloud operations</em>
+  <em>DevOps engineering with Claude Code — 25 specialized plugins plus optional hooks, covering infrastructure, containers, CI/CD, observability, and cloud operations</em>
 </p>
 
 <p align="center">
@@ -21,7 +21,7 @@
 
 DevOps is where YAML compounds. Generic AI coding produces config that "works in lab" then drowns under production load patterns the AI didn't anticipate. **LibreDevOps gives Claude Code the operational expertise to ship infrastructure that survives 3am incidents.**
 
-Twenty-five domain plugins covering Kubernetes, Terraform, cloud platforms, CI/CD, observability, incident management, and the operational layer between them.
+Twenty-five domain plugins covering Kubernetes, Terraform, cloud platforms, CI/CD, observability, incident management, and the operational layer between them, plus an optional hooks plugin that checks infrastructure files as Claude edits them. Every plugin installs through the Claude Code plugin system.
 
 ---
 
@@ -29,64 +29,73 @@ Twenty-five domain plugins covering Kubernetes, Terraform, cloud platforms, CI/C
 
 | Claude Code component | LibreDevOps provides |
 |---|---|
-| **Plugins** | 25 plugins (k8s, Terraform, AWS/Azure/GCP, CI/CD, observability, more) |
-| **Agents** | Specialist agents per plugin |
-| **Commands** | Quick-access slash commands |
-| **Skills** | Pattern libraries (manifests, modules, pipelines, alert rules) |
+| **Plugins** | 25 domain plugins (k8s, Terraform, AWS/Azure/GCP, CI/CD, observability, more) plus `libre-devops-hooks` |
+| **Agents** | 25 specialist agents, one per domain plugin |
+| **Commands** | 24 slash commands (every domain plugin except log-management) |
+| **Skills** | 26 pattern libraries (manifests, modules, pipelines, alert rules) |
+| **Hooks** | Optional: session context, a confirmation before edits to secret and state files, post-edit infrastructure checks |
 
 ---
 
 ## The 25 plugins
 
+Each domain plugin ships one agent, one slash command (log-management has none), and one or two skills. Install only the ones you use.
+
 ### Infrastructure as code
 
-| Plugin | Domain |
-|---|---|
-| **kubernetes-operations** ⭐ | Pod design, RBAC, NetworkPolicies, autoscaling, operator patterns |
-| terraform-patterns | Modules, state, workspaces, drift detection |
-| ansible-automation | Playbooks, roles, inventory, vault |
-| configuration-management | Drift, GitOps, declarative vs imperative |
-| docker-orchestration | Compose, Swarm, multi-arch builds |
-| container-registry | ECR, GCR, ACR, Harbor, image signing |
+| Plugin | Covers | Agent | Command |
+|---|---|---|---|
+| **kubernetes-operations** ⭐ | Pod design, probes, RBAC, NetworkPolicies, HPA and KEDA, Helm, pod failure diagnosis | `k8s-engineer` | `/k8s` |
+| terraform-patterns | Terraform and OpenTofu modules, remote state, for_each, Terragrunt, drift, CI/CD | `terraform-engineer` | `/terraform` |
+| ansible-automation | Idempotent playbooks and roles, inventories, variable precedence, Vault, Molecule | `ansible-engineer` | `/ansible` |
+| configuration-management | 12-factor config, SSM Parameter Store, Consul, etcd, feature flags, schema validation | `config-manager` | `/config` |
+| docker-orchestration | Multi-stage Dockerfiles, BuildKit caching, compose health checks, non-root and distroless images | `docker-engineer` | `/docker` |
+| container-registry | ECR, GHCR, Harbor, Trivy scanning, Cosign signing, multi-arch builds, SBOMs, lifecycle policies | `registry-manager` | `/registry` |
 
 ### Cloud platforms
 
-| Plugin | Domain |
-|---|---|
-| aws-infrastructure | VPCs, IAM, ELB, RDS, S3 patterns |
-| azure-infrastructure | Resource groups, VNets, AKS, Azure AD |
-| gcp-infrastructure | Projects, VPCs, GKE, IAM |
-| serverless-patterns | Lambda, Cloud Functions, Functions, cold starts |
-| service-mesh | Istio, Linkerd, Consul, observability |
+| Plugin | Covers | Agent | Command |
+|---|---|---|---|
+| aws-infrastructure | CDK and CloudFormation, VPC, IAM, ECS Fargate, RDS, CloudFront, Well-Architected | `aws-architect` | `/aws` |
+| azure-infrastructure | Bicep and ARM, AKS, Key Vault, Azure RBAC, Azure DevOps, Azure Policy, landing zones | `azure-architect` | `/azure` |
+| gcp-infrastructure | Terraform on GCP, GKE, Cloud Run, Cloud SQL, Workload Identity, Cloud Armor | `gcp-architect` | `/gcp` |
+| serverless-patterns | AWS Lambda, API Gateway, Step Functions, EventBridge, SQS/SNS, DynamoDB, cold starts | `serverless-architect` | `/serverless` |
+| service-mesh | Istio, Linkerd, Envoy, mTLS, traffic routing, circuit breaking, authorization policies | `mesh-engineer` | `/service-mesh` |
 
 ### CI/CD
 
-| Plugin | Domain |
-|---|---|
-| github-actions | Workflows, secrets, reusable actions, matrix builds |
-| gitlab-ci | Pipelines, runners, environments, deployments |
-| jenkins-pipelines | Declarative + scripted, plugins, shared libraries |
-| release-management | Semver, changelogs, feature flags, canaries |
+| Plugin | Covers | Agent | Command |
+|---|---|---|---|
+| github-actions | Workflows, reusable workflows, composite actions, matrix builds, OIDC, SHA pinning, runners | `gha-engineer` | `/gha` |
+| gitlab-ci | `rules:`, DAG `needs:`, merge request pipelines, environments, templates, SAST/DAST | `gitlab-ci-engineer` | `/gitlab-ci` |
+| jenkins-pipelines | Declarative Jenkinsfiles, shared libraries, Kubernetes agents, JCasC, pipeline tests | `jenkins-engineer` | `/jenkins` |
+| release-management | Blue/green, canary with Argo Rollouts, ArgoCD GitOps, Helm releases, semver, rollback | `release-manager` | `/release` |
 
 ### Operations + reliability
 
-| Plugin | Domain |
-|---|---|
-| monitoring-observability | Prometheus, Grafana, OpenTelemetry, SLI/SLO/SLA |
-| log-management | Loki, Elastic, CloudWatch Logs, log routing |
-| incident-management | PagerDuty, runbooks, postmortems, blameless |
-| backup-disaster-recovery | RTO/RPO, point-in-time, cross-region |
-| load-balancing | L4 vs L7, health checks, sticky sessions |
-| networking-dns | DNS strategies, ingress, egress, NAT |
+| Plugin | Covers | Agent | Command |
+|---|---|---|---|
+| monitoring-observability | Prometheus, PromQL, Grafana, Thanos, OpenTelemetry, SLOs and burn rate alerts | `observability-engineer` | `/monitor` |
+| log-management | Structured logging, Fluent Bit, Fluentd, Vector, Loki, OpenSearch retention, log alerts | `log-engineer` | none |
+| incident-management | Severity levels, on-call, status updates, SLO burn rate alerts, runbooks, postmortems | `incident-commander` | `/incident` |
+| backup-disaster-recovery | RTO/RPO, 3-2-1 backups, pgBackRest, Velero, AWS Backup, DR runbooks and drills | `dr-planner` | `/backup-plan` |
+| load-balancing | NGINX, HAProxy, AWS ALB/NLB, ingress controllers, TLS termination, rate limiting, canaries | `lb-engineer` | `/load-balance` |
+| networking-dns | VPC and CIDR planning, Route53, Transit Gateway, security groups, CoreDNS, ExternalDNS | `network-engineer` | `/network` |
 
 ### Security + cost
 
-| Plugin | Domain |
+| Plugin | Covers | Agent | Command |
+|---|---|---|---|
+| secret-management | Vault, AWS Secrets Manager, External Secrets Operator, Sealed Secrets, SOPS, rotation | `secrets-engineer` | `/secrets` |
+| infrastructure-security | CIS Benchmarks, Checkov, Vault, security groups, GuardDuty, CloudTrail analysis | `infrasec-engineer` | `/infrasec` |
+| cost-optimization | FinOps Framework, rightsizing, Savings Plans and Spot, S3 and NAT costs, Infracost, tagging | `finops-analyst` | `/cost-optimize` |
+| database-operations | PostgreSQL EXPLAIN ANALYZE, indexing, autovacuum, pgBouncer, replication, migrations | `dba-specialist` | `/db-ops` |
+
+### Optional hooks
+
+| Plugin | Covers |
 |---|---|
-| secret-management | Vault, AWS Secrets Manager, sealed-secrets, rotation |
-| infrastructure-security | IAM least-privilege, network segmentation, hardening |
-| cost-optimization | RI/SP, spot, FinOps, tagging strategies |
-| database-operations | Migrations, replication, backups, point-in-time recovery |
+| libre-devops-hooks | One line of project context at session start in infrastructure repos; asks before Claude edits Terraform state, credential, `.env`, key, or secrets files; checks Terraform, Kubernetes, Dockerfiles, CI/CD, Compose, and Ansible files after each edit. See [its README](plugins/libre-devops-hooks/README.md). |
 
 ⭐ = depth-complete plugin. Remaining 24 are shell-improved.
 
@@ -94,11 +103,33 @@ Twenty-five domain plugins covering Kubernetes, Terraform, cloud platforms, CI/C
 
 ## Quick start
 
+### Install from Claude Code
+
+```
+/plugin marketplace add HermeticOrmus/LibreDevOps-Claude-Code
+/plugin install kubernetes-operations@libre-devops
+```
+
+The same from a terminal:
+
+```bash
+claude plugin marketplace add HermeticOrmus/LibreDevOps-Claude-Code
+claude plugin install kubernetes-operations@libre-devops
+```
+
+Install any other plugin the same way with `<plugin>@libre-devops`, using the names in the tables above. Restart Claude Code after installing.
+
+Optional hooks: `/plugin install libre-devops-hooks@libre-devops` adds project context at session start, asks before edits to secret and Terraform state files, and checks infrastructure files after each edit (needs `jq`).
+
+### Install from a clone
+
 ```bash
 git clone https://github.com/HermeticOrmus/LibreDevOps-Claude-Code.git ~/projects/LibreDevOps-Claude-Code
 cd ~/projects/LibreDevOps-Claude-Code
 ./setup.sh
 ```
+
+`./setup.sh` registers the clone as the `libre-devops` marketplace and installs all 26 plugins, including `libre-devops-hooks`, through the Claude Code CLI. Pick plugins with `./setup.sh --only kubernetes-operations,terraform-patterns` (leave `libre-devops-hooks` out to skip the hooks), see every name with `./setup.sh --list`, and remove the pack with `./setup.sh --uninstall`.
 
 Then:
 
@@ -119,6 +150,12 @@ See [QUICK_START.md](QUICK_START.md).
 ## Compatibility
 
 Kubernetes 1.27+, Terraform 1.5+, all three major clouds, OCI, on-prem K8s.
+
+Installs as a Claude Code plugin marketplace; tested with Claude Code 2.1.285. The hooks plugin needs `bash` and `jq`.
+
+## Feedback
+
+Starred this? Tell us what worked and what is missing: [open a feedback issue](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/issues/new?template=feedback.yml). Every piece of feedback gets an answer, and changes that come from it are credited in the release notes.
 
 ## Contributing
 
