@@ -157,6 +157,13 @@ Installs as a Claude Code plugin marketplace; tested with Claude Code 2.1.285. T
 
 Starred this? Tell us what worked and what is missing: [open a feedback issue](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/issues/new?template=feedback.yml). Every piece of feedback gets an answer, and changes that come from it are credited in the release notes.
 
+## Contribute
+
+- Pick up the next piece of work from the [Menu](pantry/MENU.md): each item has a Done-when anyone can check, and the research behind it lives in [`pantry/`](pantry/README.md).
+- New here? Start with the [good first issues](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/contribute).
+- Use the forms: [feedback](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/issues/new?template=feedback.yml), [routing miss](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/issues/new?template=routing-miss.yml) when Claude picks the wrong plugin, and [plugin proposal](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/issues/new?template=plugin-proposal.yml).
+- Questions and show-and-tell go in [Discussions](https://github.com/HermeticOrmus/LibreDevOps-Claude-Code/discussions).
+
 ## Contributing
 
 PRs especially welcome for: more cloud depth per provider, regional pattern variations, real incident case studies, k8s operator examples. See [CONTRIBUTING.md](CONTRIBUTING.md).
