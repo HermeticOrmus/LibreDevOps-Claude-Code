@@ -158,6 +158,12 @@
       "source": "./plugins/terraform-patterns",
       "description": "Write and operate modular Terraform and OpenTofu with remote state, for_each patterns, Terragrunt, drift detection, and CI/CD for infrastructure.",
       "version": "1.0.0"
+    },
+    {
+      "name": "libre-devops-hooks",
+      "source": "./plugins/libre-devops-hooks",
+      "description": "Optional hooks that give Claude DevOps project context at session start, ask before it edits secret or Terraform state files, and review infrastructure files after each edit.",
+      "version": "1.0.0"
     }
   ]
 }
