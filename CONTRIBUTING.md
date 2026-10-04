@@ -47,7 +47,7 @@ claude plugin details <name>@libre-devops
 echo '{"tool_name":"Edit","tool_input":{"file_path":".env"},"cwd":"."}' | bash plugins/libre-devops-hooks/hooks/pre-tool-use.sh
 ```
 
-CI (`.github/workflows/validate.yml`) runs the same validation and clean-config install for every plugin on every pull request. A first-time contributor's CI run waits until a maintainer approves it.
+CI (`.github/workflows/check.yml`, running `bash scripts/check.sh`) runs the same validation and clean-config install for every plugin on every pull request. A first-time contributor's CI run waits until a maintainer approves it.
 
 ## Welcome
 - Plugin deepening (see CHANGELOG maturity matrix)
